@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trusted Flagger | Vaikų linija</title>
+    <meta name="description" content="Praneškite apie žalingą ar neteisėtą turinį internete. Mes pasirūpinsime bendravimu su platformomis.">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --vl-primary: #0D47A1;
+            --vl-primary-light: #EEF8FF;
+            --vl-secondary: #FF6A00;
+            --vl-secondary-light: #FFF0E6;
+            --vl-gray: #F5F7FA;
+            --vl-dark: #0D47A1;
+            --text-dark: #0D47A1;
+            --text-light: #6B7280;
+            --white: #ffffff;
+            --gray-border: #E5E7EB;
+        }
+
+        body {
+            font-family: 'Inter', 'Manrope', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--white);
+        }
+
+        /* Header */
+        header {
+            background-color: var(--white);
+            border-bottom: 1px solid var(--gray-border);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .accessibility-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+
+        .accessibility-btn:hover {
+            background-color: var(--vl-gray);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo img {
+            height: 45px;
+            width: auto;
+        }
+
+        .logo-text {
+            font-family: 'Manrope', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--vl-primary);
+        }
+
+        nav {
+            flex: 1;
+            max-width: 800px;
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--vl-secondary);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .search-icon {
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: var(--text-light);
+            transition: color 0.3s;
+        }
+
+        .search-icon:hover {
+            color: var(--vl-primary);
+        }
+
+        .phone-block {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: var(--vl-primary-light);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+        }
+
+        .phone-block span {
+            font-weight: 700;
+            color: var(--vl-primary);
+            font-size: 1rem;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .social-icons a {
+            color: var(--text-light);
+            font-size: 1.2rem;
+            transition: color 0.3s;
+        }
+
+        .social-icons a:hover {
+            color: var(--vl-secondary);
+        }
+
+        .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 4rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-content {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .tf-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: var(--vl-primary-light);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            width: fit-content;
+            font-weight: 600;
+            color: var(--vl-primary);
+            font-size: 0.9rem;
+        }
+
+        .hero h1 {
+            font-family: 'Manrope', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--vl-dark);
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            line-height: 1.7;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            min-height: 52px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background-color: var(--vl-primary);
+            color: var(--white);
+            border: none;
+            box-shadow: 0 4px 12px rgba(13, 71, 161, 0.3);
+        }
+
+        .btn-primary:hover {
+            background-color: #0A3D8C;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(13, 71, 161, 0.4);
+        }
+
+        .btn-primary:focus {
+            outline: 3px solid var(--vl-secondary);
+            outline-offset: 2px;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--vl-primary);
+            border: 2px solid var(--vl-primary);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--vl-primary-light);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary:focus {
+            outline: 3px solid var(--vl-secondary);
+            outline-offset: 2px;
+        }
+
+        .info-banner {
+            background-color: var(--vl-gray);
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            border-left: 4px solid var(--vl-secondary);
+            font-size: 0.95rem;
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        .hero-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-illustration {
+            width: 100%;
+            max-width: 500px;
+            height: 400px;
+            background: linear-gradient(135deg, var(--vl-primary-light) 0%, var(--vl-secondary-light) 100%);
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-illustration::before {
+            content: '📱';
+            font-size: 8rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-illustration::after {
+            content: '';
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            top: -50px;
+            right: -50px;
+        }
+
+        /* Quick Actions Section */
+        .quick-actions {
+            padding: 4rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .quick-actions-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+
+        .action-card {
+            background: var(--white);
+            border: 2px solid var(--gray-border);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .action-card:hover {
+            border-color: var(--vl-primary);
+            box-shadow: 0 8px 24px rgba(13, 71, 161, 0.15);
+            transform: translateY(-6px);
+        }
+
+        .action-card:focus-within {
+            border-color: var(--vl-primary);
+            box-shadow: 0 0 0 3px var(--vl-primary-light);
+        }
+
+        .action-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .action-card h3 {
+            font-family: 'Manrope', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--vl-dark);
+        }
+
+        .action-card p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            line-height: 1.5;
+        }
+
+        /* How It Works Section */
+        .how-it-works {
+            background-color: var(--vl-gray);
+            padding: 4rem 2rem;
+        }
+
+        .how-it-works-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-family: 'Manrope', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--vl-dark);
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .timeline {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 2rem;
+            position: relative;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 50px;
+            right: 50px;
+            height: 2px;
+            background: var(--gray-border);
+            z-index: 0;
+        }
+
+        .timeline-step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .step-number {
+            width: 80px;
+            height: 80px;
+            background: var(--vl-primary);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 4px 12px rgba(13, 71, 161, 0.3);
+        }
+
+        .timeline-step h3 {
+            font-family: 'Manrope', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--vl-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-step p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            line-height: 1.5;
+        }
+
+        /* Status Check Section */
+        .status-check {
+            padding: 4rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            background-color: var(--vl-primary-light);
+            border-radius: 24px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .status-check-content h2 {
+            font-family: 'Manrope', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--vl-dark);
+            margin-bottom: 1rem;
+        }
+
+        .status-check-content p {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+        }
+
+        .status-form {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .status-input {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border: 2px solid var(--gray-border);
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            transition: border-color 0.3s;
+        }
+
+        .status-input:focus {
+            outline: none;
+            border-color: var(--vl-primary);
+        }
+
+        .status-visual {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .status-card {
+            background: var(--white);
+            border: 2px solid var(--gray-border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            flex: 1;
+        }
+
+        .status-card h4 {
+            font-family: 'Manrope', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+        }
+
+        .status-card .status-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--vl-primary);
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: var(--gray-border);
+            border-radius: 4px;
+            margin-top: 1rem;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--vl-secondary);
+            border-radius: 4px;
+            width: 60%;
+        }
+
+        /* Help Section */
+        .help-section {
+            padding: 4rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .help-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .help-card {
+            background: var(--white);
+            border: 2px solid var(--gray-border);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .help-card:hover {
+            border-color: var(--vl-primary);
+            box-shadow: 0 8px 24px rgba(13, 71, 161, 0.15);
+            transform: translateY(-6px);
+        }
+
+        .help-card.coming-soon {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .help-card.coming-soon:hover {
+            transform: none;
+            box-shadow: none;
+            border-color: var(--gray-border);
+        }
+
+        .coming-soon-badge {
+            display: inline-block;
+            background: var(--vl-secondary);
+            color: var(--white);
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .help-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .help-card h3 {
+            font-family: 'Manrope', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--vl-dark);
+            margin-bottom: 1rem;
+        }
+
+        .help-card p {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        /* What to Report Section */
+        .what-to-report {
+            padding: 4rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            background-color: var(--vl-gray);
+            border-radius: 24px;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .category-card {
+            background: var(--white);
+            border: 2px solid var(--gray-border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .category-card:hover {
+            border-color: var(--vl-primary);
+            box-shadow: 0 8px 24px rgba(13, 71, 161, 0.15);
+            transform: translateY(-6px);
+        }
+
+        .category-icon {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .category-card h4 {
+            font-family: 'Manrope', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--vl-dark);
+        }
+
+        .view-all {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 4rem 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--white);
+            border: 2px solid var(--gray-border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .faq-item:hover {
+            border-color: var(--vl-primary);
+            box-shadow: 0 4px 12px rgba(13, 71, 161, 0.1);
+        }
+
+        .faq-item:focus {
+            outline: 3px solid var(--vl-secondary);
+            outline-offset: 2px;
+        }
+
+        .faq-question {
+            font-family: 'Manrope', sans-serif;
+            font-weight: 600;
+            color: var(--vl-dark);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-question::after {
+            content: '+';
+            font-size: 1.5rem;
+            color: var(--vl-primary);
+            transition: transform 0.3s;
+        }
+
+        .faq-item.active .faq-question::after {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            display: none;
+            margin-top: 1rem;
+            color: var(--text-light);
+            line-height: 1.6;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-30px);
+            transition: all 0.6s ease-out;
+        }
+
+        .reveal-left.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(30px);
+            transition: all 0.6s ease-out;
+        }
+
+        .reveal-right.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+        .reveal-delay-4 { transition-delay: 0.4s; }
+
+        .faq-view-all {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--vl-dark);
+            color: var(--white);
+            padding: 4rem 2rem 2rem;
+        }
+
+        .partners-section {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .partners-section h3 {
+            font-family: 'Manrope', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .partner-group {
+            margin-bottom: 3rem;
+        }
+
+        .partner-group-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 1.5rem;
+        }
+
+        .partner-logos {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .partner-logo {
+            height: 40px;
+            width: auto;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .partner-logo:hover {
+            opacity: 1;
+        }
+
+        .partner-logo-placeholder {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 0.5rem 1.5rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--white);
+            white-space: nowrap;
+        }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 3rem auto 0;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-cta {
+                justify-content: center;
+            }
+
+            .quick-actions-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .timeline {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .timeline::before {
+                display: none;
+            }
+
+            .timeline-step {
+                margin-bottom: 2rem;
+            }
+
+            .status-check {
+                grid-template-columns: 1fr;
+            }
+
+            .help-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .categories-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 1rem;
+            }
+
+            nav ul {
+                display: none;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .quick-actions-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .help-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .status-form {
+                flex-direction: column;
+            }
+
+            .status-visual {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header role="banner">
+        <div class="header-left">
+            <button class="accessibility-btn" aria-label="Prieinamumo nustatymai">♿</button>
+            <div class="logo">
+                <img src="logo.png" alt="Vaikų linija logo">
+                <div class="logo-text">Vaikų linija</div>
+            </div>
+        </div>
+
+        <nav role="navigation" aria-label="Pagrindinis meniu">
+            <ul>
+                <li><a href="#">Vaikams</a></li>
+                <li><a href="#">Paaugliams</a></li>
+                <li><a href="#">Suaugusiems</a></li>
+                <li><a href="#">Tapk savanoriu</a></li>
+                <li><a href="#">Naujienos</a></li>
+                <li><a href="#">Apie mus</a></li>
+                <li><a href="#">Parama</a></li>
+            </ul>
+        </nav>
+
+        <div class="header-right">
+            <div class="search-icon" aria-label="Paieška">🔍</div>
+            <div class="phone-block">
+                <span>116111</span>
+            </div>
+            <div class="social-icons">
+                <a href="#" aria-label="Facebook">f</a>
+                <a href="#" aria-label="Instagram">i</a>
+                <a href="#" aria-label="YouTube">▶</a>
+            </div>
+        </div>
+
+        <button class="hamburger" aria-label="Atidaryti meniu">☰</button>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content reveal-left">
+            <div class="tf-badge">🛡️ Trusted Flagger</div>
+            <h1>Praneškite apie žalingą ar neteisėtą turinį internete</h1>
+            <p>Mes pasirūpinsime bendravimu su platformomis. Tu gali pasirūpinti savimi arba vaiku.</p>
+            <div class="hero-cta">
+                <a href="https://vl-tf.github.io/tf-anketos-prototipas/" class="btn btn-primary" target="_blank">Pranešti apie turinį</a>
+                <a href="#what-to-report" class="btn btn-secondary">Ką galima pranešti</a>
+            </div>
+            <div class="info-banner">
+                Trusted Flagger nėra automatinis turinio šalinimo įrankis. Ne visi pranešimai automatiškai perduodami platformoms. Mūsų komanda peržiūri kiekvieną pranešimą ir persiunčia tik tuos, kurie atitinka reikalavimus.
+            </div>
+        </div>
+        <div class="hero-visual reveal-right">
+            <div class="hero-illustration">
+                <!-- Illustration placeholder -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Actions -->
+    <section class="quick-actions">
+        <div class="quick-actions-grid">
+            <div class="action-card reveal reveal-delay-1">
+                <div class="action-icon">📝</div>
+                <h3>Pildyti pranešimą</h3>
+                <p>Užpildyk formą ir pateik informaciją apie žalingą turinį.</p>
+            </div>
+            <div class="action-card reveal reveal-delay-2">
+                <div class="action-icon">🔍</div>
+                <h3>Patikrinti statusą</h3>
+                <p>Įvesk atvejo kodą ir sužinok savo pranešimo eigą.</p>
+            </div>
+            <div class="action-card reveal reveal-delay-3">
+                <div class="action-icon">❓</div>
+                <h3>Ką galima pranešti</h3>
+                <p>Sužinok, kokio pobūdžio turinį nagrinėjame ir kokiais atvejais galime padėti.</p>
+            </div>
+            <div class="action-card reveal reveal-delay-4">
+                <div class="action-icon">💬</div>
+                <h3>DUK</h3>
+                <p>Atsakymai į dažniausius klausimus apie pranešimo teikimą ir eigą.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works">
+        <div class="how-it-works-container">
+            <h2 class="section-title reveal">Kaip tai veikia</h2>
+            <div class="timeline">
+                <div class="timeline-step reveal reveal-delay-1">
+                    <div class="step-number">1</div>
+                    <h3>Pateiki pranešimą</h3>
+                    <p>Užpildai formą ir pateiki informaciją apie turinį.</p>
+                </div>
+                <div class="timeline-step reveal reveal-delay-2">
+                    <div class="step-number">2</div>
+                    <h3>Vertiname informaciją</h3>
+                    <p>Peržiūrime pranešimą ir įvertiname, ar galime padėti.</p>
+                </div>
+                <div class="timeline-step reveal reveal-delay-3">
+                    <div class="step-number">3</div>
+                    <h3>Kreipiamės į platformą</h3>
+                    <p>Jeigu turinys pažeidžia taisykles ar teisės aktus, kreipiamės į platformą.</p>
+                </div>
+                <div class="timeline-step reveal reveal-delay-4">
+                    <div class="step-number">4</div>
+                    <h3>Informuojame apie eigą</h3>
+                    <p>Atnaujiname pranešimo būseną. Ją gali sekti pagal ID.</p>
+                </div>
+                <div class="timeline-step reveal reveal-delay-4">
+                    <div class="step-number">5</div>
+                    <h3>Turinys pašalinamas</h3>
+                    <p>Arba pateikiame paaiškinimą, kodėl pašalinti nepavyko.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Status Check -->
+    <section class="status-check">
+        <div class="status-check-content reveal-left">
+            <h2>Pasitikrink savo pranešimo būseną</h2>
+            <p>Kiekvienam pranešimui suteikiamas unikalus atvejo kodas. Įvesk jį ir matyk naujausią būseną.</p>
+            <form class="status-form" onsubmit="checkQuickStatus(event)">
+                <input type="text" class="status-input" placeholder="Pvz. TF-2026-000123" required>
+                <button type="submit" class="btn btn-primary">Tikrinti statusą</button>
+            </form>
+        </div>
+        <div class="status-visual reveal-right">
+            <div class="status-card">
+                <h4>Pranešimų skaičius</h4>
+                <div class="status-value">1,234</div>
+            </div>
+            <div class="status-card">
+                <h4>Peržiūrima</h4>
+                <div class="status-value">60%</div>
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+            </div>
+            <div class="status-card">
+                <h4>Pašalinta</h4>
+                <div class="status-value">847</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 68%;"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Help Section -->
+    <section class="help-section">
+        <h2 class="section-title reveal">Reikia pagalbos?</h2>
+        <div class="help-grid">
+            <div class="help-card reveal reveal-delay-1">
+                <div class="help-icon">💬</div>
+                <h3>Pagalba pildant formą</h3>
+                <p>Jeigu pildant pranešimą kilo klausimų ar neaiškumų, parašyk mums. Padėsime užpildyti formą, tačiau negalėsime jos užpildyti už tave.</p>
+                <a href="#" class="btn btn-primary">Pradėti pokalbį</a>
+            </div>
+            <div class="help-card reveal reveal-delay-2">
+                <div class="help-icon">📞</div>
+                <h3>Emocinė pagalba</h3>
+                <p>Jeigu ši situacija tave paveikė emociškai, paskambink mums. Esame čia, kad išklausytume ir palaikytume.</p>
+                <a href="tel:116111" class="btn btn-primary">Skambinti 116111</a>
+            </div>
+            <div class="help-card coming-soon reveal reveal-delay-3">
+                <span class="coming-soon-badge">Būsima funkcija</span>
+                <div class="help-icon">🤖</div>
+                <h3>AI pagalbininkas</h3>
+                <p>Dirbame prie to, kad ateityje galėtume padėti dar greičiau ir patogiau.</p>
+                <button class="btn btn-secondary" disabled>Netrukus</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- What to Report -->
+    <section class="what-to-report" id="what-to-report">
+        <h2 class="section-title reveal">Ką galima pranešti</h2>
+        <div class="categories-grid">
+            <div class="category-card reveal reveal-delay-1">
+                <div class="category-icon">😢</div>
+                <h4>Patyčios</h4>
+            </div>
+            <div class="category-card reveal reveal-delay-1">
+                <div class="category-icon">⚠️</div>
+                <h4>Grasinimai</h4>
+            </div>
+            <div class="category-card reveal reveal-delay-2">
+                <div class="category-icon">🔒</div>
+                <h4>Seksualinis šantažas</h4>
+            </div>
+            <div class="category-card reveal reveal-delay-2">
+                <div class="category-icon">👶</div>
+                <h4>Vaiko viliojimas</h4>
+            </div>
+            <div class="category-card reveal reveal-delay-3">
+                <div class="category-icon">📸</div>
+                <h4>Nuogo atvaizdo platinimas</h4>
+            </div>
+            <div class="category-card reveal reveal-delay-3">
+                <div class="category-icon">🎯</div>
+                <h4>Pavojingi iššūkiai</h4>
+            </div>
+            <div class="category-card reveal reveal-delay-4">
+                <div class="category-icon">💔</div>
+                <h4>Neapykantos kalba</h4>
+            </div>
+            <div class="category-card reveal reveal-delay-4">
+                <div class="category-icon">📋</div>
+                <h4>Kitas žalingas turinys</h4>
+            </div>
+        </div>
+        <div class="view-all reveal">
+            <a href="#" class="btn btn-secondary">Žiūrėti visus atvejus</a>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq-section">
+        <h2 class="section-title reveal">Dažniausiai užduodami klausimai</h2>
+        <div class="faq-item reveal reveal-delay-1" onclick="toggleFaq(this)" tabindex="0" role="button" aria-expanded="false">
+            <div class="faq-question">Ar galiu pranešti anonimiškai?</div>
+            <div class="faq-answer">Taip, gali pranešti anonimiškai. Tavo asmens duomenys nebus viešinami.</div>
+        </div>
+        <div class="faq-item reveal reveal-delay-1" onclick="toggleFaq(this)" tabindex="0" role="button" aria-expanded="false">
+            <div class="faq-question">Ar būtina pateikti nuorodą?</div>
+            <div class="faq-answer">Rekomenduojama pateikti nuorodą į žalingą turinį, tačiau jei to negali – aprašyk situaciją kuo detaliau.</div>
+        </div>
+        <div class="faq-item reveal reveal-delay-2" onclick="toggleFaq(this)" tabindex="0" role="button" aria-expanded="false">
+            <div class="faq-question">Kas vyksta po pranešimo pateikimo?</div>
+            <div class="faq-answer">Komanda įvertina gautą informaciją. Jei atvejis atitinka kriterijus, kreipiamės į platformą.</div>
+        </div>
+        <div class="faq-item reveal reveal-delay-2" onclick="toggleFaq(this)" tabindex="0" role="button" aria-expanded="false">
+            <div class="faq-question">Ar gausiu atsakymą?</div>
+            <div class="faq-answer">Gausi pranešimo ID ir galėsi sekti proceso eigą. Atsakymą gausi, jei reikės papildomos informacijos.</div>
+        </div>
+        <div class="faq-item reveal reveal-delay-3" onclick="toggleFaq(this)" tabindex="0" role="button" aria-expanded="false">
+            <div class="faq-question">Ką daryti, jei jau kreipiausi į platformą?</div>
+            <div class="faq-answer">Vis tiek gali pranešti mums – tai padeda sekti situaciją ir užtikrina, kad atvejis bus nagrinėjamas.</div>
+        </div>
+        <div class="faq-item reveal reveal-delay-3" onclick="toggleFaq(this)" tabindex="0" role="button" aria-expanded="false">
+            <div class="faq-question">Per kiek laiko peržiūrimas pranešimas?</div>
+            <div class="faq-answer">Vertinimo laikas priklauso nuo atvejo sudėtingumo. Paprastai tai trunka 1-3 darbo dienas.</div>
+        </div>
+        <div class="faq-view-all reveal">
+            <a href="#" class="btn btn-secondary">Visi klausimai</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="partners-section">
+            <h3>Mūsų partneriai</h3>
+            
+            <div class="partner-group">
+                <div class="partner-group-title">Rėmėjai</div>
+                <div class="partner-logos">
+                    <div class="partner-logo-placeholder">Telia</div>
+                    <div class="partner-logo-placeholder">Tesonet Foundation</div>
+                </div>
+            </div>
+            
+            <div class="partner-group">
+                <div class="partner-group-title">Teisiniai partneriai</div>
+                <div class="partner-logos">
+                    <div class="partner-logo-placeholder">WIDEN Legal Group</div>
+                </div>
+            </div>
+            
+            <div class="partner-group">
+                <div class="partner-group-title">Techniniai partneriai</div>
+                <div class="partner-logos">
+                    <div class="partner-logo-placeholder">Ideal Team</div>
+                    <div class="partner-logo-placeholder">Western Invest</div>
+                </div>
+            </div>
+            
+            <div class="partner-group">
+                <div class="partner-group-title">Viešinimo partneriai</div>
+                <div class="partner-logos">
+                    <div class="partner-logo-placeholder">TRUTH</div>
+                    <div class="partner-logo-placeholder">23:45</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            © 2024 Vaikų linija. Visos teisės saugomos.
+        </div>
+    </footer>
+
+    <script>
+        // FAQ Toggle
+        function toggleFaq(element) {
+            const isActive = element.classList.contains('active');
+            element.classList.toggle('active');
+            element.setAttribute('aria-expanded', !isActive);
+        }
+
+        // Keyboard navigation for FAQ
+        document.querySelectorAll('.faq-item').forEach(item => {
+            item.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggleFaq(this);
+                }
+            });
+        });
+
+        // Quick status check
+        function checkQuickStatus(event) {
+            event.preventDefault();
+            const input = document.querySelector('.status-input');
+            const caseCode = input.value;
+            if (caseCode) {
+                window.location.href = `status.html?code=${encodeURIComponent(caseCode)}`;
+            }
+        }
+
+        // Mobile menu toggle
+        document.querySelector('.hamburger').addEventListener('click', function() {
+            const nav = document.querySelector('nav ul');
+            nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
+            nav.style.flexDirection = 'column';
+            nav.style.position = 'absolute';
+            nav.style.top = '100%';
+            nav.style.left = '0';
+            nav.style.right = '0';
+            nav.style.backgroundColor = 'white';
+            nav.style.padding = '1rem';
+            nav.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+        });
+
+        // Scroll reveal animations
+        function revealOnScroll() {
+            const reveals = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+
+            reveals.forEach(reveal => {
+                observer.observe(reveal);
+            });
+        }
+
+        // Initialize scroll reveal on page load
+        document.addEventListener('DOMContentLoaded', revealOnScroll);
+    </script>
+</body>
+</html>
