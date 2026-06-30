@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trusted Flagger | Vaikų linija</title>
+    <title>Patikimas prašėjas | Vaikų linija</title>
     <meta name="description" content="Praneškite apie žalingą ar neteisėtą turinį internete. Mes pasirūpinsime bendravimu su platformomis.">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap');
@@ -15,37 +15,50 @@
         }
 
         :root {
-            --vl-primary: #0D47A1;
-            --vl-primary-light: #EEF8FF;
-            --vl-secondary: #FF6A00;
-            --vl-secondary-light: #FFF0E6;
-            --vl-gray: #F5F7FA;
-            --vl-dark: #0D47A1;
-            --text-dark: #0D47A1;
-            --text-light: #6B7280;
+            --vl-primary: #1E5AA0;
+            --vl-primary-light: #F0F7FF;
+            --vl-primary-soft: #E8F0F9;
+            --vl-secondary: #FF6B35;
+            --vl-secondary-light: #FFF0E8;
+            --vl-secondary-soft: #FFE8DC;
+            --vl-cream: #FFF9E6;
+            --vl-cream-soft: #FFFBF0;
+            --vl-gray: #F8F9FA;
+            --vl-gray-light: #F0F1F3;
+            --vl-dark: #1A3A6E;
+            --vl-dark-soft: #2D4A7C;
+            --text-dark: #1A3A6E;
+            --text-medium: #4A5568;
+            --text-light: #718096;
             --white: #ffffff;
-            --gray-border: #E5E7EB;
+            --gray-border: #E2E8F0;
+            --shadow-soft: 0 4px 20px rgba(30, 90, 160, 0.08);
+            --shadow-medium: 0 8px 30px rgba(30, 90, 160, 0.12);
+            --shadow-hover: 0 12px 40px rgba(30, 90, 160, 0.15);
         }
 
         body {
             font-family: 'Inter', 'Manrope', sans-serif;
-            line-height: 1.6;
+            line-height: 1.7;
             color: var(--text-dark);
             background-color: var(--white);
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         /* Header */
         header {
             background-color: var(--white);
             border-bottom: 1px solid var(--gray-border);
-            padding: 1rem 2rem;
+            padding: 1.25rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
             position: sticky;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 2px 12px rgba(30, 90, 160, 0.06);
         }
 
         .header-left {
@@ -75,7 +88,7 @@
         }
 
         .logo img {
-            height: 45px;
+            height: 50px;
             width: auto;
         }
 
@@ -100,14 +113,30 @@
 
         nav a {
             text-decoration: none;
-            color: var(--text-dark);
+            color: var(--text-medium);
             font-weight: 500;
             font-size: 0.95rem;
-            transition: color 0.3s;
+            transition: all 0.3s ease;
+            position: relative;
         }
 
         nav a:hover {
-            color: var(--vl-secondary);
+            color: var(--vl-primary);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--vl-secondary);
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
         }
 
         .header-right {
@@ -127,19 +156,37 @@
             color: var(--vl-primary);
         }
 
+        .feedback-btn {
+            background: var(--vl-secondary);
+            color: var(--white);
+            padding: 0.6rem 1.25rem;
+            border-radius: 24px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(255, 107, 53, 0.2);
+        }
+
+        .feedback-btn:hover {
+            background: #E55A2B;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+        }
+
         .phone-block {
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            background-color: var(--vl-primary-light);
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
+            background-color: var(--vl-primary-soft);
+            padding: 0.6rem 1.25rem;
+            border-radius: 24px;
         }
 
         .phone-block span {
             font-weight: 700;
             color: var(--vl-primary);
-            font-size: 1rem;
+            font-size: 1.05rem;
         }
 
         .social-icons {
@@ -167,13 +214,26 @@
 
         /* Hero Section */
         .hero {
-            padding: 4rem 2rem;
+            padding: 7rem 2rem 5rem;
             max-width: 1400px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 6rem;
             align-items: center;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -10%;
+            right: -5%;
+            width: 50%;
+            height: 120%;
+            background: radial-gradient(circle, var(--vl-primary-soft) 0%, transparent 70%);
+            opacity: 0.5;
+            z-index: -1;
         }
 
         .hero-content {
@@ -186,91 +246,100 @@
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            background-color: var(--vl-primary-light);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
+            background-color: var(--vl-secondary-soft);
+            padding: 0.6rem 1.25rem;
+            border-radius: 24px;
             width: fit-content;
             font-weight: 600;
-            color: var(--vl-primary);
+            color: var(--vl-secondary);
             font-size: 0.9rem;
+            box-shadow: 0 2px 8px rgba(255, 107, 53, 0.1);
         }
 
         .hero h1 {
             font-family: 'Manrope', sans-serif;
-            font-size: 3rem;
+            font-size: 3.5rem;
             font-weight: 700;
             color: var(--vl-dark);
-            line-height: 1.2;
+            line-height: 1.15;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
         }
 
         .hero p {
-            font-size: 1.2rem;
-            color: var(--text-light);
-            line-height: 1.7;
+            font-size: 1.25rem;
+            color: var(--text-medium);
+            line-height: 1.8;
+            max-width: 600px;
         }
 
         .hero-cta {
             display: flex;
             gap: 1rem;
             flex-wrap: wrap;
+            margin-top: 1rem;
         }
 
         .btn {
-            padding: 1rem 2rem;
-            border-radius: 12px;
+            padding: 1rem 2.25rem;
+            border-radius: 24px;
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
             text-decoration: none;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            min-height: 52px;
+            min-height: 56px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
+            letter-spacing: 0.01em;
         }
 
         .btn-primary {
-            background-color: var(--vl-primary);
+            background: linear-gradient(135deg, var(--vl-secondary) 0%, #E55A2B 100%);
             color: var(--white);
             border: none;
-            box-shadow: 0 4px 12px rgba(13, 71, 161, 0.3);
+            box-shadow: 0 4px 16px rgba(255, 107, 53, 0.25);
         }
 
         .btn-primary:hover {
-            background-color: #0A3D8C;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(13, 71, 161, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(255, 107, 53, 0.35);
         }
 
         .btn-primary:focus {
-            outline: 3px solid var(--vl-secondary);
+            outline: 3px solid var(--vl-secondary-soft);
             outline-offset: 2px;
         }
 
         .btn-secondary {
-            background-color: transparent;
+            background-color: var(--white);
             color: var(--vl-primary);
-            border: 2px solid var(--vl-primary);
+            border: 2px solid var(--gray-border);
+            box-shadow: var(--shadow-soft);
         }
 
         .btn-secondary:hover {
             background-color: var(--vl-primary-light);
-            transform: translateY(-2px);
+            border-color: var(--vl-primary);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-medium);
         }
 
         .btn-secondary:focus {
-            outline: 3px solid var(--vl-secondary);
+            outline: 3px solid var(--vl-primary-soft);
             outline-offset: 2px;
         }
 
         .info-banner {
-            background-color: var(--vl-gray);
-            padding: 1rem 1.5rem;
-            border-radius: 12px;
+            background: linear-gradient(135deg, var(--vl-cream-soft) 0%, var(--vl-cream) 100%);
+            padding: 1.25rem 1.75rem;
+            border-radius: 16px;
             border-left: 4px solid var(--vl-secondary);
             font-size: 0.95rem;
-            color: var(--text-light);
-            line-height: 1.6;
+            color: var(--text-medium);
+            line-height: 1.7;
+            box-shadow: var(--shadow-soft);
         }
 
         .hero-visual {
@@ -281,95 +350,53 @@
 
         .hero-illustration {
             width: 100%;
-            max-width: 500px;
-            height: 400px;
-            background: linear-gradient(135deg, var(--vl-primary-light) 0%, var(--vl-secondary-light) 100%);
-            border-radius: 24px;
+            max-width: 520px;
+            height: 450px;
+            background: linear-gradient(135deg, var(--vl-primary-soft) 0%, var(--vl-secondary-soft) 100%);
+            border-radius: 32px;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
             overflow: hidden;
+            box-shadow: var(--shadow-medium);
         }
 
         .hero-illustration::before {
             content: '📱';
-            font-size: 8rem;
+            font-size: 9rem;
             position: relative;
             z-index: 1;
+            filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.1));
         }
 
         .hero-illustration::after {
             content: '';
             position: absolute;
-            width: 200px;
-            height: 200px;
-            background: rgba(255, 255, 255, 0.3);
+            width: 250px;
+            height: 250px;
+            background: rgba(255, 255, 255, 0.4);
             border-radius: 50%;
-            top: -50px;
-            right: -50px;
+            top: -60px;
+            right: -60px;
         }
 
-        /* Quick Actions Section */
-        .quick-actions {
-            padding: 4rem 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .quick-actions-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1.5rem;
-        }
-
-        .action-card {
-            background: var(--white);
-            border: 2px solid var(--gray-border);
-            border-radius: 12px;
-            padding: 2rem;
-            text-align: center;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .action-card:hover {
-            border-color: var(--vl-primary);
-            box-shadow: 0 8px 24px rgba(13, 71, 161, 0.15);
-            transform: translateY(-6px);
-        }
-
-        .action-card:focus-within {
-            border-color: var(--vl-primary);
-            box-shadow: 0 0 0 3px var(--vl-primary-light);
-        }
-
-        .action-icon {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .action-card h3 {
-            font-family: 'Manrope', sans-serif;
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--vl-dark);
-        }
-
-        .action-card p {
-            font-size: 0.9rem;
-            color: var(--text-light);
-            line-height: 1.5;
-        }
 
         /* How It Works Section */
         .how-it-works {
-            background-color: var(--vl-gray);
-            padding: 4rem 2rem;
+            background-color: var(--vl-gray-light);
+            padding: 7rem 2rem;
+            position: relative;
+        }
+
+        .how-it-works::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: linear-gradient(180deg, var(--white) 0%, var(--vl-gray-light) 100%);
         }
 
         .how-it-works-container {
@@ -379,30 +406,34 @@
 
         .section-title {
             font-family: 'Manrope', sans-serif;
-            font-size: 2.5rem;
+            font-size: 2.75rem;
             font-weight: 700;
             color: var(--vl-dark);
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 5rem;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
         }
 
         .timeline {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            gap: 2rem;
+            gap: 3rem;
             position: relative;
         }
 
         .timeline::before {
             content: '';
             position: absolute;
-            top: 40px;
-            left: 50px;
-            right: 50px;
-            height: 2px;
-            background: var(--gray-border);
+            top: 45px;
+            left: 70px;
+            right: 70px;
+            height: 4px;
+            background: linear-gradient(to right, var(--vl-primary-soft), var(--vl-secondary-soft));
             z-index: 0;
+            opacity: 0.6;
+            border-radius: 2px;
         }
 
         .timeline-step {
@@ -413,59 +444,88 @@
         }
 
         .step-number {
-            width: 80px;
-            height: 80px;
-            background: var(--vl-primary);
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--vl-primary) 0%, var(--vl-dark-soft) 100%);
             color: var(--white);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 1.85rem;
             font-weight: 700;
-            margin: 0 auto 1.5rem;
-            box-shadow: 0 4px 12px rgba(13, 71, 161, 0.3);
+            margin: 0 auto 2rem;
+            box-shadow: var(--shadow-medium);
+            border: 4px solid var(--white);
+            transition: all 0.3s ease;
+        }
+
+        .timeline-step:hover .step-number {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-hover);
         }
 
         .timeline-step h3 {
             font-family: 'Manrope', sans-serif;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: 600;
             color: var(--vl-dark);
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.75rem;
+            line-height: 1.4;
         }
 
         .timeline-step p {
-            font-size: 0.9rem;
-            color: var(--text-light);
-            line-height: 1.5;
+            font-size: 0.95rem;
+            color: var(--text-medium);
+            line-height: 1.6;
         }
 
         /* Status Check Section */
         .status-check {
-            padding: 4rem 2rem;
+            padding: 7rem 2rem;
             max-width: 1400px;
             margin: 0 auto;
-            background-color: var(--vl-primary-light);
-            border-radius: 24px;
+            background: linear-gradient(135deg, var(--vl-primary-soft) 0%, var(--vl-primary-light) 100%);
+            border-radius: 32px;
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 4rem;
+            gap: 6rem;
             align-items: center;
+            box-shadow: var(--shadow-medium);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .status-check::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 60%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+            z-index: 0;
+        }
+
+        .status-check-content {
+            position: relative;
+            z-index: 1;
         }
 
         .status-check-content h2 {
             font-family: 'Manrope', sans-serif;
-            font-size: 2rem;
+            font-size: 2.5rem;
             font-weight: 700;
             color: var(--vl-dark);
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
         }
 
         .status-check-content p {
-            font-size: 1.1rem;
-            color: var(--text-light);
-            margin-bottom: 2rem;
+            font-size: 1.2rem;
+            color: var(--text-medium);
+            margin-bottom: 3rem;
+            line-height: 1.8;
         }
 
         .status-form {
@@ -475,30 +535,42 @@
 
         .status-input {
             flex: 1;
-            padding: 1rem 1.5rem;
+            padding: 1.25rem 1.75rem;
             border: 2px solid var(--gray-border);
-            border-radius: 12px;
+            border-radius: 24px;
             font-size: 1rem;
             font-family: 'Inter', sans-serif;
-            transition: border-color 0.3s;
+            transition: all 0.3s;
+            background: var(--white);
+            box-shadow: var(--shadow-soft);
         }
 
         .status-input:focus {
             outline: none;
             border-color: var(--vl-primary);
+            box-shadow: 0 0 0 4px rgba(30, 90, 160, 0.1);
         }
 
         .status-visual {
             display: flex;
-            gap: 1rem;
+            gap: 1.5rem;
+            position: relative;
+            z-index: 1;
         }
 
         .status-card {
             background: var(--white);
-            border: 2px solid var(--gray-border);
-            border-radius: 12px;
-            padding: 1.5rem;
+            border: none;
+            border-radius: 24px;
+            padding: 2.5rem;
             flex: 1;
+            box-shadow: var(--shadow-soft);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .status-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-hover);
         }
 
         .status-card h4 {
@@ -530,145 +602,92 @@
             width: 60%;
         }
 
-        /* Help Section */
-        .help-section {
-            padding: 4rem 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .help-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-        }
-
-        .help-card {
-            background: var(--white);
-            border: 2px solid var(--gray-border);
-            border-radius: 12px;
-            padding: 2rem;
-            text-align: center;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .help-card:hover {
-            border-color: var(--vl-primary);
-            box-shadow: 0 8px 24px rgba(13, 71, 161, 0.15);
-            transform: translateY(-6px);
-        }
-
-        .help-card.coming-soon {
-            opacity: 0.7;
-            cursor: not-allowed;
-        }
-
-        .help-card.coming-soon:hover {
-            transform: none;
-            box-shadow: none;
-            border-color: var(--gray-border);
-        }
-
-        .coming-soon-badge {
-            display: inline-block;
-            background: var(--vl-secondary);
-            color: var(--white);
-            padding: 0.25rem 0.75rem;
-            border-radius: 12px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-        }
-
-        .help-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-
-        .help-card h3 {
-            font-family: 'Manrope', sans-serif;
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: var(--vl-dark);
-            margin-bottom: 1rem;
-        }
-
-        .help-card p {
-            font-size: 0.95rem;
-            color: var(--text-light);
-            line-height: 1.6;
-            margin-bottom: 1.5rem;
-        }
-
         /* What to Report Section */
         .what-to-report {
-            padding: 4rem 2rem;
+            padding: 7rem 2rem;
             max-width: 1400px;
             margin: 0 auto;
-            background-color: var(--vl-gray);
-            border-radius: 24px;
+            background-color: var(--vl-cream-soft);
+            border-radius: 32px;
+            box-shadow: var(--shadow-soft);
         }
 
         .categories-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 1.5rem;
-            margin-top: 2rem;
+            gap: 2rem;
+            margin-top: 3rem;
         }
 
         .category-card {
             background: var(--white);
-            border: 2px solid var(--gray-border);
-            border-radius: 12px;
-            padding: 1.5rem;
+            border: none;
+            border-radius: 24px;
+            padding: 2.5rem 2rem;
             text-align: center;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
+            box-shadow: var(--shadow-soft);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--vl-secondary) 0%, var(--vl-primary) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
         .category-card:hover {
-            border-color: var(--vl-primary);
-            box-shadow: 0 8px 24px rgba(13, 71, 161, 0.15);
-            transform: translateY(-6px);
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .category-card:hover::before {
+            opacity: 1;
         }
 
         .category-icon {
-            font-size: 2rem;
-            margin-bottom: 0.75rem;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
         }
 
         .category-card h4 {
             font-family: 'Manrope', sans-serif;
-            font-size: 1rem;
+            font-size: 1.05rem;
             font-weight: 600;
             color: var(--vl-dark);
-        }
-
-        .view-all {
-            text-align: center;
-            margin-top: 2rem;
+            line-height: 1.4;
         }
 
         /* FAQ Section */
         .faq-section {
-            padding: 4rem 2rem;
+            padding: 7rem 2rem;
             max-width: 1000px;
             margin: 0 auto;
         }
 
         .faq-item {
             background: var(--white);
-            border: 2px solid var(--gray-border);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 1rem;
+            border: none;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-soft);
         }
 
         .faq-item:hover {
-            border-color: var(--vl-primary);
-            box-shadow: 0 4px 12px rgba(13, 71, 161, 0.1);
+            box-shadow: var(--shadow-medium);
+            transform: translateY(-2px);
         }
 
         .faq-item:focus {
@@ -683,6 +702,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            font-size: 1.1rem;
+            line-height: 1.5;
         }
 
         .faq-question::after {
@@ -698,10 +719,12 @@
 
         .faq-answer {
             display: none;
-            margin-top: 1rem;
-            color: var(--text-light);
-            line-height: 1.6;
+            margin-top: 1.25rem;
+            color: var(--text-medium);
+            line-height: 1.7;
             animation: fadeIn 0.3s ease-out;
+            padding-top: 1rem;
+            border-top: 1px solid var(--gray-border);
         }
 
         .faq-item.active .faq-answer {
@@ -709,8 +732,27 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Subtle animation classes */
+        .animate-slide-up {
+            animation: slideUp 0.6s ease-out forwards;
+        }
+
+        .animate-scale-in {
+            animation: scaleIn 0.5s ease-out forwards;
         }
 
         @keyframes fadeInUp {
@@ -784,81 +826,218 @@
         .reveal-delay-3 { transition-delay: 0.3s; }
         .reveal-delay-4 { transition-delay: 0.4s; }
 
-        .faq-view-all {
-            text-align: center;
-            margin-top: 2rem;
-        }
-
         /* Footer */
         footer {
-            background-color: var(--vl-dark);
+            background: linear-gradient(180deg, var(--vl-dark) 0%, var(--vl-dark-soft) 100%);
             color: var(--white);
-            padding: 4rem 2rem 2rem;
+            padding: 7rem 2rem 3rem;
+            position: relative;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 150px;
+            background: linear-gradient(180deg, var(--vl-gray-light) 0%, var(--vl-dark) 100%);
         }
 
         .partners-section {
             max-width: 1400px;
             margin: 0 auto;
+            position: relative;
+            z-index: 1;
         }
 
         .partners-section h3 {
             font-family: 'Manrope', sans-serif;
-            font-size: 1.5rem;
+            font-size: 2rem;
             font-weight: 600;
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 5rem;
+            letter-spacing: -0.02em;
         }
 
         .partner-group {
-            margin-bottom: 3rem;
+            margin-bottom: 4rem;
         }
 
         .partner-group-title {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 1.5rem;
+            letter-spacing: 2px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 2.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .partner-group-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, var(--vl-secondary) 0%, transparent 100%);
         }
 
         .partner-logos {
-            display: flex;
-            gap: 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 3rem;
             align-items: center;
-            flex-wrap: wrap;
+            justify-content: center;
         }
 
         .partner-logo {
-            height: 40px;
+            height: 55px;
             width: auto;
-            opacity: 0.8;
-            transition: opacity 0.3s;
+            opacity: 0.7;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            filter: grayscale(100%) brightness(200%);
         }
 
         .partner-logo:hover {
             opacity: 1;
+            filter: grayscale(0%) brightness(100%);
+            transform: scale(1.08);
         }
 
         .partner-logo-placeholder {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            padding: 0.5rem 1.5rem;
-            font-size: 0.9rem;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            padding: 1rem 2.5rem;
+            font-size: 1rem;
             font-weight: 600;
             color: var(--white);
             white-space: nowrap;
+            transition: all 0.3s ease;
+        }
+
+        .partner-logo-placeholder:hover {
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-2px);
         }
 
         .footer-bottom {
             max-width: 1400px;
-            margin: 3rem auto 0;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 5rem auto 0;
+            padding-top: 3rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
             text-align: center;
+            font-size: 0.95rem;
+            opacity: 0.6;
+            line-height: 1.8;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Platform Links Section */
+        .platform-links {
+            padding: 7rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .platform-links-container p {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--text-medium);
+            margin-bottom: 3rem;
+            line-height: 1.8;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .platform-logos {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .platform-logo-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 1.5rem;
+            border-radius: 24px;
+            background: var(--white);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .platform-logo-item:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .platform-logo-item svg {
+            transition: all 0.3s ease;
+        }
+
+        .platform-logo-item:hover svg {
+            transform: scale(1.1);
+        }
+
+        .platform-logo-item span {
             font-size: 0.9rem;
-            opacity: 0.7;
+            font-weight: 600;
+            color: var(--text-medium);
+        }
+
+        .platform-link:focus {
+            outline: 3px solid var(--vl-secondary);
+            outline-offset: 2px;
+        }
+
+        /* Want to Talk Section */
+        .want-to-talk {
+            background: linear-gradient(135deg, var(--vl-secondary-soft) 0%, var(--vl-cream-soft) 100%);
+            padding: 7rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .want-to-talk::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            left: -20%;
+            width: 50%;
+            height: 160%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, transparent 70%);
+            z-index: 0;
+        }
+
+        .want-to-talk-container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .want-to-talk-container p {
+            font-size: 1.2rem;
+            color: var(--text-medium);
+            margin-bottom: 3rem;
+            line-height: 1.8;
+        }
+
+        .talk-options {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
         }
 
         /* Responsive */
@@ -866,14 +1045,27 @@
             .hero {
                 grid-template-columns: 1fr;
                 text-align: center;
+                padding: 5rem 2rem 4rem;
+                gap: 4rem;
+            }
+
+            .hero::before {
+                display: none;
+            }
+
+            .hero p {
+                max-width: 100%;
+                margin-left: auto;
+                margin-right: auto;
             }
 
             .hero-cta {
                 justify-content: center;
             }
 
-            .quick-actions-grid {
-                grid-template-columns: repeat(2, 1fr);
+            .hero-illustration {
+                max-width: 400px;
+                height: 350px;
             }
 
             .timeline {
@@ -886,19 +1078,21 @@
             }
 
             .timeline-step {
-                margin-bottom: 2rem;
+                margin-bottom: 2.5rem;
             }
 
             .status-check {
                 grid-template-columns: 1fr;
-            }
-
-            .help-grid {
-                grid-template-columns: repeat(2, 1fr);
+                padding: 5rem 2rem;
+                gap: 3rem;
             }
 
             .categories-grid {
                 grid-template-columns: repeat(2, 1fr);
+            }
+
+            .platform-logos {
+                gap: 2rem;
             }
         }
 
@@ -916,15 +1110,11 @@
             }
 
             .hero h1 {
-                font-size: 2rem;
+                font-size: 2.5rem;
             }
 
-            .quick-actions-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .help-grid {
-                grid-template-columns: 1fr;
+            .hero p {
+                font-size: 1.1rem;
             }
 
             .status-form {
@@ -933,6 +1123,23 @@
 
             .status-visual {
                 flex-direction: column;
+            }
+
+            .categories-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .partner-logos {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .platform-logo-item {
+                padding: 1rem;
             }
         }
     </style>
@@ -962,6 +1169,7 @@
 
         <div class="header-right">
             <div class="search-icon" aria-label="Paieška">🔍</div>
+            <a href="https://www.vaikulinija.lt/palik-atsiliepima/" class="feedback-btn" target="_blank">Palik atsiliepimą</a>
             <div class="phone-block">
                 <span>116111</span>
             </div>
@@ -978,15 +1186,16 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content reveal-left">
-            <div class="tf-badge">🛡️ Trusted Flagger</div>
-            <h1>Praneškite apie žalingą ar neteisėtą turinį internete</h1>
-            <p>Mes pasirūpinsime bendravimu su platformomis. Tu gali pasirūpinti savimi arba vaiku.</p>
+            <div class="tf-badge">🛡️ Patikimas pranešėjas</div>
+            <h1>Internete turi būti saugu</h1>
+            <p>Čia gali pranešti apie tai, kas tave neramina internete. Jei susiduri su netinkamu turiniu internete, gali daryti kelis dalykus.</p>
             <div class="hero-cta">
                 <a href="https://vl-tf.github.io/tf-anketos-prototipas/" class="btn btn-primary" target="_blank">Pranešti apie turinį</a>
                 <a href="#what-to-report" class="btn btn-secondary">Ką galima pranešti</a>
+                <a href="#status-check" class="btn btn-secondary">Patikrink pateikto atvejo būseną</a>
             </div>
             <div class="info-banner">
-                Trusted Flagger nėra automatinis turinio šalinimo įrankis. Ne visi pranešimai automatiškai perduodami platformoms. Mūsų komanda peržiūri kiekvieną pranešimą ir persiunčia tik tuos, kurie atitinka reikalavimus.
+                Patikimo pranešėjo paslauga nėra automatinis turinio šalinimo įrankis. Mūsų komanda peržiūri kiekvieną pranešimą ir persiunčia tik tuos, kurie atitinka reikalavimus.
             </div>
         </div>
         <div class="hero-visual reveal-right">
@@ -996,31 +1205,6 @@
         </div>
     </section>
 
-    <!-- Quick Actions -->
-    <section class="quick-actions">
-        <div class="quick-actions-grid">
-            <div class="action-card reveal reveal-delay-1">
-                <div class="action-icon">📝</div>
-                <h3>Pildyti pranešimą</h3>
-                <p>Užpildyk formą ir pateik informaciją apie žalingą turinį.</p>
-            </div>
-            <div class="action-card reveal reveal-delay-2">
-                <div class="action-icon">🔍</div>
-                <h3>Patikrinti statusą</h3>
-                <p>Įvesk atvejo kodą ir sužinok savo pranešimo eigą.</p>
-            </div>
-            <div class="action-card reveal reveal-delay-3">
-                <div class="action-icon">❓</div>
-                <h3>Ką galima pranešti</h3>
-                <p>Sužinok, kokio pobūdžio turinį nagrinėjame ir kokiais atvejais galime padėti.</p>
-            </div>
-            <div class="action-card reveal reveal-delay-4">
-                <div class="action-icon">💬</div>
-                <h3>DUK</h3>
-                <p>Atsakymai į dažniausius klausimus apie pranešimo teikimą ir eigą.</p>
-            </div>
-        </div>
-    </section>
 
     <!-- How It Works -->
     <section class="how-it-works">
@@ -1055,64 +1239,7 @@
             </div>
         </div>
     </section>
-
-    <!-- Status Check -->
-    <section class="status-check">
-        <div class="status-check-content reveal-left">
-            <h2>Pasitikrink savo pranešimo būseną</h2>
-            <p>Kiekvienam pranešimui suteikiamas unikalus atvejo kodas. Įvesk jį ir matyk naujausią būseną.</p>
-            <form class="status-form" onsubmit="checkQuickStatus(event)">
-                <input type="text" class="status-input" placeholder="Pvz. TF-2026-000123" required>
-                <button type="submit" class="btn btn-primary">Tikrinti statusą</button>
-            </form>
-        </div>
-        <div class="status-visual reveal-right">
-            <div class="status-card">
-                <h4>Pranešimų skaičius</h4>
-                <div class="status-value">1,234</div>
-            </div>
-            <div class="status-card">
-                <h4>Peržiūrima</h4>
-                <div class="status-value">60%</div>
-                <div class="progress-bar">
-                    <div class="progress-fill"></div>
-                </div>
-            </div>
-            <div class="status-card">
-                <h4>Pašalinta</h4>
-                <div class="status-value">847</div>
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width: 68%;"></div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Help Section -->
-    <section class="help-section">
-        <h2 class="section-title reveal">Reikia pagalbos?</h2>
-        <div class="help-grid">
-            <div class="help-card reveal reveal-delay-1">
-                <div class="help-icon">💬</div>
-                <h3>Pagalba pildant formą</h3>
-                <p>Jeigu pildant pranešimą kilo klausimų ar neaiškumų, parašyk mums. Padėsime užpildyti formą, tačiau negalėsime jos užpildyti už tave.</p>
-                <a href="#" class="btn btn-primary">Pradėti pokalbį</a>
-            </div>
-            <div class="help-card reveal reveal-delay-2">
-                <div class="help-icon">📞</div>
-                <h3>Emocinė pagalba</h3>
-                <p>Jeigu ši situacija tave paveikė emociškai, paskambink mums. Esame čia, kad išklausytume ir palaikytume.</p>
-                <a href="tel:116111" class="btn btn-primary">Skambinti 116111</a>
-            </div>
-            <div class="help-card coming-soon reveal reveal-delay-3">
-                <span class="coming-soon-badge">Būsima funkcija</span>
-                <div class="help-icon">🤖</div>
-                <h3>AI pagalbininkas</h3>
-                <p>Dirbame prie to, kad ateityje galėtume padėti dar greičiau ir patogiau.</p>
-                <button class="btn btn-secondary" disabled>Netrukus</button>
-            </div>
-        </div>
-    </section>
+    
 
     <!-- What to Report -->
     <section class="what-to-report" id="what-to-report">
@@ -1151,9 +1278,6 @@
                 <h4>Kitas žalingas turinys</h4>
             </div>
         </div>
-        <div class="view-all reveal">
-            <a href="#" class="btn btn-secondary">Žiūrėti visus atvejus</a>
-        </div>
     </section>
 
     <!-- FAQ -->
@@ -1181,20 +1305,125 @@
         </div>
         <div class="faq-item reveal reveal-delay-3" onclick="toggleFaq(this)" tabindex="0" role="button" aria-expanded="false">
             <div class="faq-question">Per kiek laiko peržiūrimas pranešimas?</div>
-            <div class="faq-answer">Vertinimo laikas priklauso nuo atvejo sudėtingumo. Paprastai tai trunka 1-3 darbo dienas.</div>
+            <div class="faq-answer">Vertinimo laikas priklauso nuo atvejo sudėtingumo. Paprastai tai trunka 5 darbo dienas.</div>
         </div>
-        <div class="faq-view-all reveal">
-            <a href="#" class="btn btn-secondary">Visi klausimai</a>
+    </section>
+
+    <!-- Status Check -->
+    <section class="status-check" id="status-check">
+        <div class="status-check-content reveal-left">
+            <h2>Pasitikrink savo pranešimo būseną</h2>
+            <p>Kiekvienam pranešimui suteikiamas unikalus atvejo kodas. Įvesk jį ir matyk naujausią būseną.</p>
+            <form class="status-form" onsubmit="checkQuickStatus(event)">
+                <input type="text" class="status-input" placeholder="TF-2026-000123" required>
+                <button type="submit" class="btn btn-primary">Tikrinti statusą</button>
+            </form>
+        </div>
+        <div class="status-visual reveal-right">
+            <div class="status-card">
+                <h4>Bendras pranešimų skaičius</h4>
+                <div class="status-value">1,234</div>
+            </div>
+            <div class="status-card">
+                <h4>Persiųsta platformoms</h4>
+                <div class="status-value">912</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 74%;"></div>
+                </div>
+            </div>
+            <div class="status-card">
+                <h4>Pašalinta turinio</h4>
+                <div class="status-value">847</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 68%;"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Platform Links -->
+    <section class="platform-links">
+        <div class="platform-links-container">
+            <h2 class="section-title reveal">Gali pranešti ir pačioms platformoms</h2>
+            <p class="reveal">Patikimo pranešėjo programą pripažįsta didžiausios socialinės žiniasklaidos platformos. Mes tiesiogiai bendraujame su jomis, kad pašalintume žalingą turinį.</p>
+            <div class="platform-logos reveal" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 3rem; margin-top: 3rem;">
+                <div class="platform-logo-item" style="display: flex; flex-direction: column; align-items: center; gap: 0.75rem;">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor" style="color: #1877F2;">
+                        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                    </svg>
+                    <span style="font-size: 0.85rem; font-weight: 600; color: var(--text-light);">Facebook</span>
+                </div>
+                <div class="platform-logo-item" style="display: flex; flex-direction: column; align-items: center; gap: 0.75rem;">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor" style="color: #E4405F;">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                    </svg>
+                    <span style="font-size: 0.85rem; font-weight: 600; color: var(--text-light);">Instagram</span>
+                </div>
+                <div class="platform-logo-item" style="display: flex; flex-direction: column; align-items: center; gap: 0.75rem;">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor" style="color: #000000;">
+                        <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
+                    </svg>
+                    <span style="font-size: 0.85rem; font-weight: 600; color: var(--text-light);">TikTok</span>
+                </div>
+                <div class="platform-logo-item" style="display: flex; flex-direction: column; align-items: center; gap: 0.75rem;">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor" style="color: #FF0000;">
+                        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                    </svg>
+                    <span style="font-size: 0.85rem; font-weight: 600; color: var(--text-light);">YouTube</span>
+                </div>
+                <div class="platform-logo-item" style="display: flex; flex-direction: column; align-items: center; gap: 0.75rem;">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor" style="color: #FFFC00;">
+                        <path d="M12.01 1.57c-5.63 0-10.21 4.51-10.21 10.08s4.58 10.08 10.21 10.08S22.22 17.22 22.22 11.65 17.64 1.57 12.01 1.57zm-.01 1.62c4.66 0 8.43 3.75 8.43 8.38s-3.77 8.38-8.43 8.38-8.43-3.75-8.43-8.38 3.77-8.38 8.43-8.38zm-.01 1.62c-3.74 0-6.77 3-6.77 6.71s3.03 6.71 6.77 6.71 6.77-3 6.77-6.71-3.03-6.71-6.77-6.71zm-.01 1.62c2.85 0 5.16 2.28 5.16 5.09s-2.31 5.09-5.16 5.09-5.16-2.28-5.16-5.09 2.31-5.09 5.16-5.09z"/>
+                    </svg>
+                    <span style="font-size: 0.85rem; font-weight: 600; color: var(--text-light);">Snapchat</span>
+                </div>
+                <div class="platform-logo-item" style="display: flex; flex-direction: column; align-items: center; gap: 0.75rem;">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor" style="color: #000000;">
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                    </svg>
+                    <span style="font-size: 0.85rem; font-weight: 600; color: var(--text-light);">X (Twitter)</span>
+                </div>
+                <div class="platform-logo-item" style="display: flex; flex-direction: column; align-items: center; gap: 0.75rem;">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor" style="color: #5865F2;">
+                        <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.694-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+                    </svg>
+                    <span style="font-size: 0.85rem; font-weight: 600; color: var(--text-light);">Discord</span>
+                </div>
+                <div class="platform-logo-item" style="display: flex; flex-direction: column; align-items: center; gap: 0.75rem;">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor" style="color: #FF4500;">
+                        <path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.469 0 .898.196 1.207.49 1.207-.883 2.91-1.43 4.809-1.487l.885-4.182-3.68.774c0 .688-.562 1.249-1.25 1.249a1.25 1.25 0 0 1-1.249-1.25c0-.688.561-1.249 1.25-1.249.543 0 1.008.353 1.184.844l3.936-.828.085-.418c.057-.277.323-.456.6-.4l2.32.488a1.25 1.25 0 0 1 1.242-1.107z"/>
+                    </svg>
+                    <span style="font-size: 0.85rem; font-weight: 600; color: var(--text-light);">Reddit</span>
+                </div>
+                <div class="platform-logo-item" style="display: flex; flex-direction: column; align-items: center; gap: 0.75rem;">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor" style="color: #0088cc;">
+                        <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+                    </svg>
+                    <span style="font-size: 0.85rem; font-weight: 600; color: var(--text-light);">Telegram</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Want to Talk Section -->
+    <section class="want-to-talk">
+        <div class="want-to-talk-container reveal">
+            <h2 class="section-title">Nori tik pasikalbėti?</h2>
+            <p>Gali susisiekti su Vaikų linija telefonu arba internetu. Pokalbis anonimiškas.</p>
+            <div class="talk-options">
+                <a href="tel:116111" class="btn btn-primary">116 111</a>
+                <a href="https://www.vaikulinija.lt/" class="btn btn-secondary" target="_blank">Atidaryti pokalbį internetu</a>
+            </div>
         </div>
     </section>
 
     <!-- Footer -->
     <footer>
         <div class="partners-section">
-            <h3>Mūsų partneriai</h3>
             
             <div class="partner-group">
-                <div class="partner-group-title">Rėmėjai</div>
+                <div class="partner-group-title">Projekto rėmėjai</div>
                 <div class="partner-logos">
                     <div class="partner-logo-placeholder">Telia</div>
                     <div class="partner-logo-placeholder">Tesonet Foundation</div>
