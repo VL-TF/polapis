@@ -1,2483 +1,543 @@
 <!DOCTYPE html>
 <html lang="lt">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Vaikų linija | TF anketos prototipas</title>
-
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@500;700;800&family=Sansita:wght@700;800&display=swap');
-
-:root {
-  --orange:#E64011;
-  --blue:#005386;
-  --cream:#FEFDE9;
-  --lightblue:#D9F0FA;
-  --pink:#F08C75;
-  --green:#E7E867;
-  --cyan:#29ABE2;
-  --text:#123044;
-  --muted:#65737A;
-  --white:#FFFFFF;
-  --line:#D8E8EF;
-  --danger:#B42318;
-}
-
-* { box-sizing:border-box; }
-
-body {
-  margin:0;
-  min-height:100vh;
-  background:var(--cream);
-  font-family:'Dosis', Arial, sans-serif;
-  color:var(--text);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  padding:24px;
-  position:relative;
-}
-
-body::before {
-  content:"";
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  opacity:.22;
-  background-image:repeating-linear-gradient(174deg, transparent 0px, transparent 38px, rgba(0,83,134,.18) 39px, transparent 42px);
-  z-index:0;
-}
-
-.phone {
-  width:410px;
-  height:860px;
-  background:#0B1117;
-  border-radius:46px;
-  padding:14px;
-  box-shadow:0 30px 80px rgba(0,0,0,.35);
-  position:relative;
-}
-
-.phone::before {
-  content:"";
-  position:absolute;
-  top:9px;
-  left:50%;
-  transform:translateX(-50%);
-  width:128px;
-  height:26px;
-  background:#0B1117;
-  border-radius:0 0 18px 18px;
-  z-index:10;
-}
-
-.screen {
-  height:100%;
-  overflow-y:auto;
-  background:var(--cream);
-  border-radius:34px;
-  padding:38px 22px 26px;
-  position:relative;
-}
-
-.wave {
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  opacity:.22;
-  background-image:repeating-linear-gradient(174deg, transparent 0px, transparent 38px, rgba(0,83,134,.18) 39px, transparent 42px);
-}
-
-.content { position:relative; z-index:2; }
-
-.brand {
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  margin-bottom:18px;
-}
-
-.logo {
-  font-family:'Sansita', cursive;
-  color:var(--orange);
-  font-size:30px;
-  line-height:1;
-}
-
-.bird {
-  background:var(--blue);
-  color:white;
-  width:36px;
-  height:36px;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:18px;
-  font-weight:800;
-}
-
-.step { display:none; }
-.step.active { display:block; }
-
-.hero {
-  background:var(--blue);
-  color:white;
-  border-radius:30px;
-  padding:28px 24px;
-  margin-bottom:18px;
-  position:relative;
-  overflow:hidden;
-  box-shadow:0 12px 0 rgba(0,83,134,.18);
-}
-
-.hero::after {
-  content:"";
-  position:absolute;
-  width:180px;
-  height:180px;
-  right:-72px;
-  bottom:-82px;
-  background:var(--orange);
-  border-radius:50%;
-}
-
-.hero > * { position:relative; z-index:2; }
-
-.card {
-  background:white;
-  border:2px solid rgba(0,83,134,.10);
-  border-radius:26px;
-  padding:24px;
-  box-shadow:0 12px 0 rgba(0,83,134,.08);
-  margin-bottom:18px;
-}
-
-h1,h2 {
-  font-family:'Sansita', cursive;
-  margin:0 0 14px;
-  line-height:1.08;
-}
-
-h1 { font-size:34px; }
-h2 { font-size:28px; color:var(--blue); }
-
-p {
-  font-size:17px;
-  line-height:1.45;
-  margin:0 0 16px;
-}
-
-.helper {
-  color:var(--muted);
-  font-size:15px;
-}
-
-.progress-text {
-  text-align:center;
-  color:var(--blue);
-  font-weight:800;
-  margin-bottom:8px;
-}
-
-.progress-track {
-  height:10px;
-  background:#EAF3F7;
-  border-radius:999px;
-  overflow:hidden;
-  margin-bottom:18px;
-}
-
-.progress-fill {
-  height:100%;
-  background:linear-gradient(90deg, var(--orange), var(--cyan));
-}
-
-label {
-  font-weight:800;
-  font-size:15px;
-  display:block;
-  margin:12px 0 8px;
-}
-
-select,
-input[type="text"],
-input[type="url"],
-input[type="email"],
-input[type="date"],
-textarea {
-  width:100%;
-  min-height:74px;
-  border:4px solid #C9DCE8;
-  border-radius:28px;
-  padding:0 28px;
-  font-family:'Dosis', Arial, sans-serif;
-  font-size:18px;
-  background:white;
-  color:var(--text);
-  text-align:left;
-  line-height:1.2;
-}
-
-select {
-  padding-right:50px;
-}
-
-textarea {
-  min-height:120px;
-  padding:20px 28px;
-  resize:vertical;
-}
-
-input[type="date"] {
-  text-align:left !important;
-  -webkit-appearance:none;
-  appearance:none;
-}
-
-input[type="date"]::-webkit-datetime-edit,
-input[type="date"]::-webkit-date-and-time-value {
-  text-align:left;
-  justify-content:flex-start;
-}
-
-input[type="date"]::-webkit-calendar-picker-indicator {
-  margin-left:auto;
-}
-
-select:focus,
-input:focus,
-textarea:focus {
-  outline:none;
-  border-color:var(--cyan);
-  box-shadow:0 0 0 4px rgba(41,171,226,.18);
-}
-
-.option {
-  background:#fff;
-  border:2px solid var(--line);
-  border-radius:18px;
-  padding:13px;
-  display:flex;
-  gap:10px;
-  align-items:flex-start;
-  margin-bottom:10px;
-  font-size:16px;
-}
-
-.option input {
-  width:auto;
-  margin-top:4px;
-}
-
-.tooltip {
-  display:block;
-  color:var(--muted);
-  font-size:13px;
-  margin-top:4px;
-  font-weight:500;
-}
-
-button,.link-button {
-  border:none;
-  border-radius:22px;
-  padding:15px 18px;
-  font-family:'Dosis', Arial, sans-serif;
-  font-size:17px;
-  font-weight:800;
-  cursor:pointer;
-  text-align:center;
-  text-decoration:none;
-  display:block;
-  width:100%;
-}
-
-.btn-primary {
-  background:var(--orange);
-  color:white;
-  box-shadow:0 6px 0 #B8320D;
-}
-
-.btn-secondary {
-  background:var(--lightblue);
-  color:var(--blue);
-  border:2px solid rgba(0,83,134,.14);
-}
-
-.btn-back {
-  background:#F1F4F5;
-  color:var(--blue);
-}
-
-.button-row {
-  display:flex;
-  gap:10px;
-  margin-top:18px;
-}
-
-.review-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-top: 18px;
-}
-
-.review-actions button {
-  width: 100%;
-  min-height: 58px;
-  white-space: normal;
-  line-height: 1.2;
-}
-
-.note {
-  background:var(--lightblue);
-  border:2px solid rgba(0,83,134,.10);
-  border-radius:20px;
-  padding:14px;
-  margin:14px 0;
-  color:var(--blue);
-  font-size:15px;
-  font-weight:700;
-}
-
-.warning-note {
-  background: #FFF3ED;
-  border: 2px solid rgba(230, 64, 17, 0.35);
-  color: #7A2E12;
-  border-radius: 20px;
-  padding: 14px;
-  margin: 14px 0;
-  font-size: 15px;
-  font-weight: 800;
-}
-
-.warning-note::before {
-  content: "⚠️ ";
-}
-
-.platform-note {
-  background: #EAF7FC;
-  border: 2px solid rgba(41, 171, 226, 0.35);
-  color: var(--blue);
-  border-radius: 20px;
-  padding: 14px;
-  margin: 14px 0;
-  font-size: 15px;
-  font-weight: 800;
-}
-
-.warning-option {
-  background: #FFF3ED;
-  border: 2px solid rgba(230, 64, 17, 0.35);
-  color: #7A2E12;
-}
-
-.case-codes-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin: 14px 0;
-}
-
-.case-code-card {
-  background: var(--blue);
-  color: white;
-  border-radius: 18px;
-  padding: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-}
-
-.case-code-text {
-  font-weight: 800;
-  font-size: 18px;
-  word-break: break-word;
-}
-
-.copy-code-btn {
-  width: auto;
-  min-width: 86px;
-  padding: 8px 10px;
-  border-radius: 14px;
-  background: white;
-  color: var(--blue);
-  box-shadow: none;
-  font-size: 14px;
-}
-
-.upload-box {
-  border:2px dashed var(--cyan);
-  background:#F8FCFE;
-  border-radius:22px;
-  padding:18px;
-  text-align:center;
-  margin:12px 0;
-}
-
-.drop-zone {
-  background:#F0F7FA;
-  border:3px dashed #C9DCE8;
-  border-radius:22px;
-  padding:20px;
-  text-align:center;
-  margin-top:12px;
-  cursor:pointer;
-  transition:all 0.3s ease;
-}
-
-.drop-zone:hover {
-  border-color:var(--cyan);
-  background:#E8F4F8;
-}
-
-.drop-zone.dragover {
-  border-color:var(--orange);
-  background:#FFF3ED;
-}
-
-.drop-zone-content {
-  pointer-events:none;
-}
-
-.drop-zone-text {
-  margin:4px 0;
-  font-size:16px;
-  color:var(--muted);
-  font-weight:600;
-}
-
-.evidence-preview {
-  display:flex;
-  flex-wrap:wrap;
-  gap:12px;
-  margin-top:16px;
-}
-
-.evidence-item {
-  position:relative;
-  width:100px;
-  height:100px;
-  border-radius:16px;
-  overflow:hidden;
-  border:2px solid var(--line);
-  background:white;
-}
-
-.evidence-item img {
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-
-.evidence-item .video-placeholder {
-  width:100%;
-  height:100%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:24px;
-  background:#F0F7FA;
-}
-
-.evidence-item .remove-btn {
-  position:absolute;
-  top:4px;
-  right:4px;
-  width:24px;
-  height:24px;
-  background:var(--danger);
-  color:white;
-  border:none;
-  border-radius:50%;
-  cursor:pointer;
-  font-size:14px;
-  font-weight:bold;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  box-shadow:0 2px 4px rgba(0,0,0,.2);
-}
-
-.evidence-item .file-info {
-  position:absolute;
-  bottom:0;
-  left:0;
-  right:0;
-  background:rgba(0,0,0,.7);
-  color:white;
-  padding:4px 6px;
-  font-size:11px;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-}
-
-.comment-panel {
-  background:#FFF;
-  border:2px dashed var(--orange);
-  border-radius:24px;
-  padding:16px;
-  margin-top:18px;
-}
-
-.comment-panel h3 {
-  font-size:18px;
-  margin:0 0 10px;
-  color:var(--blue);
-}
-
-.saved-comment {
-  background:var(--cream);
-  border:1px solid rgba(0,83,134,.18);
-  border-radius:16px;
-  padding:12px;
-  margin-top:8px;
-  font-size:15px;
-  position:relative;
-}
-
-.delete-comment {
-  width:auto;
-  padding:5px 9px;
-  font-size:13px;
-  position:absolute;
-  right:8px;
-  top:8px;
-  background:#FDECEC;
-  color:var(--danger);
-  box-shadow:none;
-}
-
-.error {
-  display:none;
-  color:var(--danger);
-  font-weight:800;
-  margin-top:8px;
-}
-
-.error.show { display:block; }
-
-.review-item {
-  background:var(--cream);
-  border-radius:18px;
-  padding:13px;
-  margin-bottom:10px;
-}
-
-.review-item strong {
-  display:block;
-  color:var(--blue);
-  margin-bottom:4px;
-}
-
-.support-box {
-  background:var(--lightblue);
-  border:2px solid rgba(0,83,134,.12);
-  border-radius:24px;
-  padding:20px;
-  margin:18px 0;
-}
-
-.phone-number {
-  font-family:'Sansita', cursive;
-  color:var(--orange);
-  font-size:42px;
-  margin:10px 0 16px;
-}
-
-.phone-number a {
-  color:inherit;
-  text-decoration:none;
-}
-
-.case-id {
-  background:var(--blue);
-  color:white;
-  border-radius:20px;
-  padding:16px;
-  text-align:center;
-  font-weight:800;
-  font-size:22px;
-  margin:16px 0;
-}
-
-.institution-box {
-  background: #FFF3ED;
-  border: 2px solid rgba(230, 64, 17, 0.28);
-  border-radius: 22px;
-  padding: 16px;
-  margin-top: 16px;
-}
-
-.institution-box h3 {
-  color: var(--blue);
-  margin-top: 0;
-}
-
-@media(max-width:460px){
-  body { padding:0; }
-  .phone { width:100%; height:100vh; border-radius:0; padding:0; }
-  .phone::before { display:none; }
-  .screen { border-radius:0; }
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Internete vaikams turi būti saugu | Patikimo pranešėjo paslauga</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
-
-<div class="phone">
-  <div class="screen">
-    <div class="wave"></div>
-    <div class="content">
-
-      <div class="brand">
-        <div class="logo">Vaikų linija</div>
-        <div class="bird">VL</div>
-      </div>
-
-      <section id="step1" class="step active">
-        <div class="hero">
-          <h1>Internete gali būti saugu.</h1>
-          <p>Čia gali pranešti apie tai, kas tave neramina internete.</p>
-        </div>
-        <div class="card">
-          <p>Jei susiduri su neteisėtu turiniu internete, gali daryti kelis dalykus:</p>
-
-          <div class="review-item">
-            <strong>Gali pateikti pranešimą apie neteisėtą turinį mums.</strong>
-            <span>Mes kreipsimės į platformą už tave.</span>
-            <button class="btn-primary" style="margin-top:12px" onclick="goToStep(2)">Užpildyti pranešimą</button>
-          </div>
-
-          <div class="review-item">
-            <strong>Gali kreiptis emocinės paramos.</strong>
-            <span>Čia gali tau padėti nusiraminti ir apgalvoti tolimesnius žingsnius.</span>
-            <button class="btn-secondary" style="margin-top:12px" onclick="goToStep(99)">Pasikalbėti su Vaikų linija</button>
-          </div>
-        </div>
-      </section>
-
-      <section id="step2" class="step">
-        <progress-block current="1" total="6" percent="17"></progress-block>
-        <div class="card">
-          <h2>Kur pastebėjai neteisėtą turinį?</h2>
-
-          <label>Kas teikia pranešimą?</label>
-          <select id="reporterType" onchange="toggleReporterType()">
-            <option value="person">Asmuo</option>
-            <option value="school">Mokykla / švietimo įstaiga</option>
-            <option value="institution">Institucija / organizacija su oficialiu teisiniu pagrindu</option>
-            <option value="community">Kita organizacija / bendruomenė</option>
-          </select>
-
-          <label>Platforma <span style="color:var(--danger);">*</span></label>
-          <select id="platform" onchange="updatePlatformNote(); toggleOtherPlatform(); validatePlatformUrlMatch();">
-            <option value="">Pasirink vieną</option>
-            <option value="facebook">Facebook</option>
-            <option value="instagram">Instagram</option>
-            <option value="tiktok">TikTok</option>
-            <option value="youtube">YouTube</option>
-            <option value="snapchat">Snapchat</option>
-            <option value="x">X</option>
-            <option value="telegram">Telegram</option>
-            <option value="whatsapp">WhatsApp</option>
-            <option value="discord">Discord</option>
-            <option value="reddit">Reddit</option>
-            <option value="viber">Viber</option>
-            <option value="other">Kita</option>
-          </select>
-
-          <div id="otherPlatformWrap" style="display:none;">
-            <label>Įrašyk platformą</label>
-            <input id="otherPlatform" type="text" placeholder="pavadinimas" />
-          </div>
-
-          <div id="platformNote" class="platform-note" style="display:none;"></div>
-
-          <label style="margin-top:15px;">Įklijuok nuorodą <span style="color:var(--danger);">*</span></label>
-          <p class="helper">Įklijuok visą puslapio adresą. Laukas priima tik URL formatą.</p>
-          <input id="url" type="url" inputmode="url" placeholder="https://..." oninput="validateUrlLive(); validatePlatformUrlMatch()" />
-
-          <div id="platformMismatchWarning" class="warning-note" style="display:none;">
-            Atrodo, kad nuoroda gali neatitikti pasirinktos platformos. Patikrink, ar platforma ir nuoroda teisingos.
-            <label class="option warning-option" style="margin-top:8px;"><input id="confirmMismatch" type="checkbox"> Suprantu, tęsti vis tiek</label>
-          </div>
-
-          <div id="institutionFields" class="institution-box" style="display:none;">
-            <h3>Institucijos / organizacijos informacija</h3>
-
-            <label>Organizacijos / institucijos pavadinimas <span style="color:var(--danger);">*</span></label>
-            <input id="institutionName" type="text" placeholder="Įveskite pavadinimą" />
-
-            <label>Kontaktinis asmuo</label>
-            <input id="institutionContactPerson" type="text" placeholder="Vardas, pavardė" />
-
-            <label>Pareigos</label>
-            <input id="institutionContactRole" type="text" placeholder="Pareigos" />
-
-            <label>Oficialus el. paštas <span style="color:var(--danger);">*</span></label>
-            <input id="institutionEmail" type="email" placeholder="institucija@pavyzdys.lt" />
-
-            <label>Vidinis bylos / rašto numeris</label>
-            <input id="institutionReferenceNumber" type="text" placeholder="Pvz., BYL-2024-001" />
-
-            <label>Prašymo tipas</label>
-            <select id="institutionRequestType">
-              <option value="">Pasirinkite</option>
-              <option>Pašalinti turinį</option>
-              <option>Apriboti prieigą</option>
-              <option>Kita</option>
-            </select>
-
-            <label>Teisės aktai / teisinis pagrindas <span style="color:var(--danger);">*</span></label>
-            <textarea id="legalBasis" placeholder="Įrašykite vieną ar kelis teisės aktus, kuriais grindžiamas prašymas šalinti turinį."></textarea>
-            <p class="helper">Galima įrašyti kelis teisės aktus ar straipsnius. Pvz., nacionalinis įstatymas, SPA, nepilnamečių apsaugos ar asmens duomenų apsaugos nuo neigiamo viešosios informacijos poveikio įstatymas ar BDAR.</p>
-
-            <label>Video laiko žyma</label>
-            <input id="videoTimestamp" type="text" placeholder="Jei tai video, nurodykite apytikslę minutę, pvz. 01:25–02:10" />
-            <p class="helper">Jei tai video ar tiesioginė transliacija, nurodykite apytikslę vietą, kurioje matomas pažeidimas.</p>
-
-            <label>Skubos pagrindas</label>
-            <select id="urgencyReason">
-              <option value="">Pasirink</option>
-              <option>Nėra skubos</option>
-              <option>Grėsmė vaikui</option>
-              <option>Savižalos rizika</option>
-              <option>Smurtas</option>
-              <option>Seksualinis turinys</option>
-              <option>Asmens duomenų viešinimas</option>
-              <option>Kita</option>
-            </select>
-
-            <label>Papildomos su šiuo atveju susijusios nuorodos</label>
-            <textarea id="additionalUrls" placeholder="Jei susijusių nuorodų daugiau, įklijuokite jas čia, po vieną eilutėje."></textarea>
-            <label>Pastaba platformai</label>
-            <textarea id="platformNoteForInstitution" placeholder="Trumpa oficiali pastaba platformai, jei reikia."></textarea>
-
-            <label style="margin-top:15px;">Ar jau ėmėtės veiksmų?</label>
-            <label class="option"><input type="checkbox" id="institutionActionTalkedPerson" class="institutionAction" onchange="handleActionOther('institution')"> Kalbėta su nukentėjusiu vaiku</label>
-            <label class="option"><input type="checkbox" id="institutionActionTalkedParents" class="institutionAction" onchange="handleActionOther('institution')"> Kalbėta su tėvais / globėjais</label>
-            <label class="option"><input type="checkbox" id="institutionActionTalkedPoster" class="institutionAction" onchange="handleActionOther('institution')"> Kalbėta su asmeniu, kuris paskelbė turinį</label>
-            <label class="option"><input type="checkbox" id="institutionActionPlatform" class="institutionAction" onchange="handleActionOther('institution')"> Kreiptasi į platformą</label>
-            <label class="option"><input type="checkbox" id="institutionActionPolice" class="institutionAction" onchange="handleActionOther('institution')"> Kreiptasi į policiją</label>
-            <label class="option"><input type="checkbox" id="institutionActionChildRights" class="institutionAction" onchange="handleActionOther('institution')"> Kreiptasi į Vaiko teisių apsaugos tarnybą</label>
-            <label class="option"><input type="checkbox" id="institutionActionOtherInstitution" class="institutionAction" onchange="handleActionOther('institution')"> Kreiptasi į kitą instituciją</label>
-            <label class="option"><input type="checkbox" id="institutionActionNone" class="institutionAction" onchange="handleActionNone('institution')"> Veiksmų nesiimta</label>
-            <label class="option"><input type="checkbox" id="institutionActionOther" class="institutionAction" onchange="handleActionOther('institution')"> Kita</label>
-
-            <div id="institutionActionOtherWrap" style="display:none;">
-              <label>Įrašykite</label>
-              <input id="institutionActionOtherText" type="text" placeholder="Trumpai paaiškink" />
+    <!-- Header with Logo -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <svg class="logo-svg" viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg">
+                    <text x="10" y="40" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#FF8C42">Vaikų</text>
+                    <text x="85" y="40" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#4A90E2">linija</text>
+                </svg>
             </div>
-          </div>
+        </div>
+    </header>
 
-          <div id="schoolFields" class="institution-box" style="display:none;">
-            <h3>Mokyklos informacija</h3>
-
-            <label>Mokyklos pavadinimas <span style="color:var(--danger);">*</span></label>
-            <input id="schoolName" type="text" placeholder="Įvesk mokyklos pavadinimą" />
-
-            <label>Kontaktinis asmuo</label>
-            <input id="schoolContact" type="text" placeholder="Vardas, pavardė" />
-
-            <label>Pareigos</label>
-            <input id="schoolRole" type="text" placeholder="Pareigos" />
-
-            <label>El. paštas <span style="color:var(--danger);">*</span></label>
-            <input id="schoolEmail" type="email" placeholder="mokykla@pavyzdys.lt" />
-
-            <label>Vaiko klasė</label>
-            <select id="schoolClass">
-              <option value="">Pasirink</option>
-              <option value="1">1 klasė</option>
-              <option value="2">2 klasė</option>
-              <option value="3">3 klasė</option>
-              <option value="4">4 klasė</option>
-              <option value="5">5 klasė</option>
-              <option value="6">6 klasė</option>
-              <option value="7">7 klasė</option>
-              <option value="8">8 klasė</option>
-              <option value="9">9 klasė</option>
-              <option value="10">10 klasė</option>
-              <option value="11">11 klasė</option>
-              <option value="12">12 klasė</option>
-              <option value="unknown">Nežinoma</option>
-            </select>
-
-            <label>Ar situacija susijusi su tos pačios mokyklos mokiniais?</label>
-            <label class="option"><input type="radio" name="sameSchool" value="Taip"> Taip</label>
-            <label class="option"><input type="radio" name="sameSchool" value="Ne"> Ne</label>
-            <label class="option"><input type="radio" name="sameSchool" value="Nežinau"> Nežinau</label>
-
-            <label style="margin-top:15px;">Ar jau ėmėtės veiksmų?</label>
-            <label class="option"><input type="checkbox" id="schoolActionTalkedStudent" class="schoolAction" onchange="handleActionOther('school')"> Kalbėta su vaiku</label>
-            <label class="option"><input type="checkbox" id="schoolActionTalkedParents" class="schoolAction" onchange="handleActionOther('school')"> Kalbėta su tėvais / globėjais</label>
-            <label class="option"><input type="checkbox" id="schoolActionTalkedPoster" class="schoolAction" onchange="handleActionOther('school')"> Kalbėta su asmeniu, kuris paskelbė turinį</label>
-            <label class="option"><input type="checkbox" id="schoolActionPlatform" class="schoolAction" onchange="handleActionOther('school')"> Kreiptasi į platformą</label>
-            <label class="option"><input type="checkbox" id="schoolActionPolice" class="schoolAction" onchange="handleActionOther('school')"> Kreiptasi į policiją</label>
-            <label class="option"><input type="checkbox" id="schoolActionChildRights" class="schoolAction" onchange="handleActionOther('school')"> Kreiptasi į Vaiko teisių apsaugos tarnybą</label>
-            <label class="option"><input type="checkbox" id="schoolActionOtherInstitution" class="schoolAction" onchange="handleActionOther('school')"> Kreiptasi į kitą instituciją</label>
-            <label class="option"><input type="checkbox" id="schoolActionNone" class="schoolAction" onchange="handleActionNone('school')"> Veiksmų nesiimta</label>
-            <label class="option"><input type="checkbox" id="schoolActionOther" class="schoolAction" onchange="handleActionOther('school')"> Kita</label>
-
-            <div id="schoolActionOtherWrap" style="display:none;">
-              <label>Įrašykite</label>
-              <input id="schoolActionOtherText" type="text" placeholder="Trumpai paaiškink" />
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Internete vaikams turi būti saugu</h1>
+                <p class="hero-subtitle">Pabėgti nuo patyčių internete šiandien galime tik už ryšio zonos ribų</p>
+                
+                <!-- Three Action Buttons -->
+                <div class="action-buttons">
+                    <a href="https://vl-tf.github.io/tf-anketos-prototipas/" class="btn btn-orange">
+                        🟠 Pranešti apie turinį
+                    </a>
+                    <a href="#kada-galima-pranesti" class="btn btn-blue">
+                        🔵 Apie ką galima pranešti
+                    </a>
+                    <a href="#statusas" class="btn btn-white">
+                        ⚪ Patikrinti pateikto atvejo būseną
+                    </a>
+                </div>
             </div>
-
-            <label style="margin-top:15px;">Kodėl kreipiatės į Patikimą pranešėją?</label>
-            <select id="schoolReason" onchange="toggleSchoolReasonOther()">
-              <option value="">Pasirink</option>
-              <option value="Platforma nereaguoja">Platforma nereaguoja</option>
-              <option value="Turinys vis dar prieinamas">Turinys vis dar prieinamas</option>
-              <option value="Norime greitesnio įvertinimo">Norime greitesnio įvertinimo</option>
-              <option value="Turinys kelia grėsmę vaikui">Turinys kelia grėsmę vaikui</option>
-              <option value="Kita">Kita</option>
-            </select>
-
-            <div id="schoolReasonOtherWrap" style="display:none;">
-              <label>Paaiškink</label>
-              <input id="schoolReasonOther" type="text" placeholder="Trumpai paaiškink" />
+            <div class="hero-illustration">
+                <!-- Reserved space for campaign illustration -->
             </div>
+        </div>
+    </section>
 
-            <label style="margin-top:15px;">Ar šis turinys paveikė</label>
-            <select id="affectedStudents">
-              <option value="">Pasirink</option>
-              <option value="Vieną mokinį">Vieną mokinį</option>
-              <option value="Kelis mokinius">Kelis mokinius</option>
-              <option value="Visą klasę">Visą klasę</option>
-              <option value="Visą mokyklą">Visą mokyklą</option>
-              <option value="Nežinoma">Nežinoma</option>
-            </select>
-
-            <label style="margin-top:15px;">Papildoma informacija</label>
-            <textarea id="schoolAdditionalInfo" placeholder="Jei reikia, papildomai aprašykite situaciją"></textarea>
-          </div>
-
-          <div id="communityFields" class="institution-box" style="display:none;">
-            <h3>Organizacijos / bendruomenės informacija</h3>
-
-            <label>Organizacijos / bendruomenės pavadinimas <span style="color:var(--danger);">*</span></label>
-            <input id="communityName" type="text" placeholder="Įvesk organizacijos pavadinimą" />
-
-            <label>Kontaktinis asmuo</label>
-            <input id="communityContact" type="text" placeholder="Vardas, pavardė" />
-
-            <label>Pareigos</label>
-            <input id="communityRole" type="text" placeholder="Pareigos" />
-
-            <label>El. paštas <span style="color:var(--danger);">*</span></label>
-            <input id="communityEmail" type="email" placeholder="organizacija@pavyzdys.lt" />
-
-            <label style="margin-top:15px;">Ar jau ėmėtės veiksmų?</label>
-            <label class="option"><input type="checkbox" id="communityActionTalkedPerson" class="communityAction" onchange="handleActionOther('community')"> Kalbėta su vaiku</label>
-            <label class="option"><input type="checkbox" id="communityActionTalkedParents" class="communityAction" onchange="handleActionOther('community')"> Kalbėta su tėvais / globėjais</label>
-            <label class="option"><input type="checkbox" id="communityActionTalkedPoster" class="communityAction" onchange="handleActionOther('community')"> Kalbėta su asmeniu, kuris paskelbė turinį</label>
-            <label class="option"><input type="checkbox" id="communityActionPlatform" class="communityAction" onchange="handleActionOther('community')"> Kreiptasi į platformą</label>
-            <label class="option"><input type="checkbox" id="communityActionPolice" class="communityAction" onchange="handleActionOther('community')"> Kreiptasi į policiją</label>
-            <label class="option"><input type="checkbox" id="communityActionChildRights" class="communityAction" onchange="handleActionOther('community')"> Kreiptasi į Vaiko teisių apsaugos tarnybą</label>
-            <label class="option"><input type="checkbox" id="communityActionOtherInstitution" class="communityAction" onchange="handleActionOther('community')"> Kreiptasi į kitą instituciją</label>
-            <label class="option"><input type="checkbox" id="communityActionNone" class="communityAction" onchange="handleActionNone('community')"> Veiksmų nesiimta</label>
-            <label class="option"><input type="checkbox" id="communityActionOther" class="communityAction" onchange="handleActionOther('community')"> Kita</label>
-
-            <div id="communityActionOtherWrap" style="display:none;">
-              <label>Įrašykite</label>
-              <input id="communityActionOtherText" type="text" placeholder="Trumpai paaiškink" />
+    <!-- Vieta be patyčių Section -->
+    <section class="vieta-be-patyciu">
+        <div class="container">
+            <div class="vieta-content">
+                <div class="vieta-text">
+                    <h2>„Vieta be patyčių" – kas tai?</h2>
+                    <p>Tai vieta, kurioje nėra ryšio. O kur nėra ryšio, ten nėra ir patyčių. Šiandien jos daugiausiai vyksta būtent internete, todėl saugiausia vieta nuo jų… kur interneto nėra. Dėl to toliausiai nuo ryšio zonos nutolusią vietą ir atradome. Kaip simbolį ir absurdišką problemos sprendimą, jei patiri patyčias internete.</p>
+                    <p>Tai siūlote ten pabėgti? Ne visai. Jei internete iš tavęs tyčiojasi ar matai, kaip tyčiojasi iš kito, pranešk apie tai „Vaikų linijai", kuri nuo šiol turi Patikimo pranešėjo statusą ir gali padėti lengviau pašalinti patyčias internete.</p>
+                </div>
+                <div class="vieta-illustration">
+                    <div class="campaign-visual-placeholder"></div>
+                </div>
             </div>
+        </div>
+    </section>
 
-            <label style="margin-top:15px;">Kodėl kreipiatės į Trusted Flagger?</label>
-            <select id="communityReason" onchange="toggleCommunityReasonOther()">
-              <option value="">Pasirink</option>
-              <option value="Platforma nereaguoja">Platforma nereaguoja</option>
-              <option value="Turinys vis dar prieinamas">Turinys vis dar prieinamas</option>
-              <option value="Norime greitesnio įvertinimo">Norime greitesnio įvertinimo</option>
-              <option value="Turinys kelia grėsmę vaikui">Turinys kelia grėsmę vaikui</option>
-              <option value="Kita">Kita</option>
-            </select>
-
-            <div id="communityReasonOtherWrap" style="display:none;">
-              <label>Paaiškink</label>
-              <input id="communityReasonOther" type="text" placeholder="Trumpai paaiškink" />
+    <!-- Apie paslaugą ir Kaip tai veikia Section -->
+    <section class="about-service-merged">
+        <div class="container">
+            <div class="about-merged-content">
+                <div class="about-text-merged">
+                    <h2>Apie paslaugą</h2>
+                    <p>Jei susidūrei su žalingu ar galimai neteisėtu turiniu, gali pranešti mums. Įvertinsime tavo pranešimą ir, jei jis atitiks Patikimo pranešėjo kriterijus, kreipsimės į platformą dėl jo peržiūros. Tu gali pasirūpinti pranešimu – mes pasirūpinsime bendravimu su platforma.</p>
+                    <p>Patikimo pranešėjo funkcija nėra automatinis kitų platformų turinio šalinimas. Mūsų komanda peržiūri kiekvieną pateiktą pranešimą ir persiunčia jį atitinkamos platformos valdytojui tik tuo atveju, jeigu turinys yra neteisėtas.</p>
+                </div>
+                <div class="steps-merged">
+                    <div class="step-item" data-step="1">
+                        <div class="step-number-merged">1</div>
+                        <div class="step-text-merged">
+                            <h3>Pranešk apie turinį</h3>
+                            <p>Užpildyk pranešimo formą ir pateik informaciją apie žalingą turinį.</p>
+                        </div>
+                    </div>
+                    <div class="step-item" data-step="2">
+                        <div class="step-number-merged">2</div>
+                        <div class="step-text-merged">
+                            <h3>Įvertinsime pranešimą</h3>
+                            <p>Patikrinsime, ar pranešimas atitinka Patikimo pranešėjo kriterijus.</p>
+                        </div>
+                    </div>
+                    <div class="step-item" data-step="3">
+                        <div class="step-number-merged">3</div>
+                        <div class="step-text-merged">
+                            <h3>Kreipsimės į platformą</h3>
+                            <p>Jei atitinka, susisieksime su platforma dėl turinio peržiūros.</p>
+                        </div>
+                    </div>
+                    <div class="step-item" data-step="4">
+                        <div class="step-number-merged">4</div>
+                        <div class="step-text-merged">
+                            <h3>Turinys pašalinamas</h3>
+                            <p>Platforma peržiūri ir pašalina neteisėtą turinį.</p>
+                        </div>
+                    </div>
+                    <div class="step-item" data-step="5">
+                        <div class="step-number-merged">5</div>
+                        <div class="step-text-merged">
+                            <h3>Gauk atsakymą</h3>
+                            <p>Informuosime tave apie sprendimą ir galutinius rezultatus.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
+        </div>
+    </section>
 
-            <label style="margin-top:15px;">Ar šis turinys paveikė</label>
-            <select id="affectedPersons">
-              <option value="">Pasirink</option>
-              <option value="Vieną asmenį">Vieną asmenį</option>
-              <option value="Kelis asmenis">Kelis asmenis</option>
-              <option value="Grupę">Grupę</option>
-              <option value="Visą bendruomenę">Visą bendruomenę</option>
-              <option value="Nežinoma">Nežinoma</option>
-            </select>
-
-            <label style="margin-top:15px;">Papildoma informacija</label>
-            <textarea id="communityAdditionalInfo" placeholder="Jei reikia, papildomai aprašyk situaciją"></textarea>
-          </div>
-
-          <label style="margin-top:15px;">Pridėk įrodymus<span style="color:var(--danger);">*</span></label>
-          <p class="helper">Gali pridėti ekrano nuotrauką arba vaizdo įrašą. Tai padeda greičiau įvertinti situaciją.</p>
-
-          <div id="dropZone" class="drop-zone">
-            <input
-              type="file"
-              id="evidenceInput"
-              multiple
-              accept="image/*,video/*,.heic,.heif"
-              style="display:none;"
-            />
-            <div class="drop-zone-content">
-              <p class="drop-zone-text">Pasirink failą</p>
-              <p class="drop-zone-text">arba</p>
-              <p class="drop-zone-text">Nutempk failą čia</p>
+    <!-- Reporting Categories Section -->
+    <section class="reporting-categories" id="kada-galima-pranesti">
+        <div class="container">
+            <h2>Apie ką galima pranešti?</h2>
+            <div class="categories-grid">
+                <div class="category-card">
+                    <div class="category-icon">👥</div>
+                    <h3>Patyčios</h3>
+                    <p>Įžeidinėjimas, grasinimai, neapykantos kalba</p>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">🔞</div>
+                    <h3>Nepriimtinas turinys</h3>
+                    <p>Smurtas, pornografija, narkotikai</p>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">🎭</div>
+                    <h3>Netikra informacija</h3>
+                    <p>Melas, dezinformacija, klaidingos naujienos</p>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">🔐</div>
+                    <h3>Privatumo pažeidimas</h3>
+                    <p>Asmeninių duomenų nutekinimas</p>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">💳</div>
+                    <h3>Sukčiavimas</h3>
+                    <p>Apsauga nuo sukčiavimo internete</p>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">🎮</div>
+                    <h3>Žaidimų patyčios</h3>
+                    <p>Patyčios žaidimuose ir platformose</p>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">📱</div>
+                    <h3>Mobilieji pranešimai</h3>
+                    <p>Žalingas turinys programėlėse</p>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">🌐</div>
+                    <h3>Kitas turinys</h3>
+                    <p>Kita žalinga ar įtariama veikla</p>
+                </div>
             </div>
-          </div>
-
-          <div id="evidencePreview" class="evidence-preview"></div>
-          <div id="evidenceError" class="error" style="display:none;"></div>
-
-          <label class="option"><input id="safeEvidence" type="checkbox"> Įkeliu tik ekrano nuotraukas ar vaizdo įrašus, susijusius su mano pranešimu.</label>
-
-          <div id="error2" class="error">Prašome užpildyti privalomus laukus (platforma, nuoroda).</div>
-
-          <div class="button-row">
-            <button class="btn-back" onclick="goToStep(1)">Atgal</button>
-            <button class="btn-primary" onclick="nextCombinedStep()">Toliau</button>
-          </div>
-
-      </section>
-
-      <section id="step3" class="step">
-        <progress-block current="2" total="5" percent="40"></progress-block>
-        <div class="card">
-          <h2>Ar jau kreipeisi į platformą?</h2>
-
-          <label class="option"><input type="radio" name="reported" value="Taip" onchange="toggleReportedDetails()"> Taip</label>
-          <label class="option"><input type="radio" name="reported" value="Ne" onchange="toggleReportedDetails()"> Ne</label>
-
-          <div id="reportedDetails" style="display:none;">
-            <label>Kada?</label>
-            <input id="reportedDate" type="date" />
-
-            <label>Ar gavai atsakymą?</label>
-            <select id="platformResponse">
-              <option value="">Pasirink</option>
-              <option>Taip</option>
-              <option>Ne</option>
-            </select>
-          </div>
-
-          <h2 style="margin-top:22px;">Ar turinys vis dar pasiekiamas?</h2>
-
-          <label class="option"><input type="radio" name="contentStatus" value="Taip, vis dar aktyvus" onchange="toggleLastSeen()"> Taip, vis dar aktyvus</label>
-          <label class="option"><input type="radio" name="contentStatus" value="Nežinau" onchange="toggleLastSeen()"> Nežinau</label>
-
-          <div id="lastSeenWrap" style="display:none;">
-            <label>Kada paskutinį kartą matei?</label>
-            <input id="lastSeen" type="text" placeholder="Pvz., vakar, prieš savaitę..." />
-          </div>
-
-          <h2 style="margin-top:22px;">Ar turinys pasikartojantis?</h2>
-          <label class="option"><input type="radio" name="repeatedContent" value="Taip" onchange="toggleRepeatedContent()"> Taip</label>
-          <label class="option"><input type="radio" name="repeatedContent" value="Ne" onchange="toggleRepeatedContent()"> Ne</label>
-          <label class="option"><input type="radio" name="repeatedContent" value="Nežinau" onchange="toggleRepeatedContent()"> Nežinau</label>
-
-          <div id="samePersonWrap" style="display:none;">
-            <label>Ar tai tas pats asmuo?</label>
-            <select id="samePerson">
-              <option>Taip</option>
-              <option>Ne</option>
-              <option>Nežinau</option>
-            </select>
-          </div>
-
-          <div class="button-row">
-            <button class="btn-back" onclick="goToStep(2)">Atgal</button>
-            <button class="btn-primary" onclick="goToStep(4)">Toliau</button>
-          </div>
+            <div class="cta-center">
+                <a href="https://vl-tf.github.io/tf-anketos-prototipas/" class="btn btn-primary">PRANEŠK</a>
+            </div>
         </div>
-      </section>
+    </section>
 
-      <section id="step4" class="step">
-        <progress-block current="3" total="5" percent="60"></progress-block>
-        <div class="card">
-          <h2>Padėk mums suprasti situaciją</h2>
-          <p class="helper">Atsakyk trumpai. Jei nenori arba nežinai, gali palikti tuščią.</p>
-
-          <label>Kas nutiko?</label>
-          <textarea id="qaWhatHappened" placeholder="Pvz., kažkas tyčiojasi, grasina, dalijasi žalingu turiniu..."></textarea>
-
-          <label>Kas tai daro?</label>
-          <textarea id="qaWhoDidIt" placeholder="Pvz., pažįstamas žmogus, paskyra, grupė, nežinau..."></textarea>
-
-          <label>Kam tai nutiko?</label>
-          <textarea id="qaWhoAffected" placeholder="Pvz., man, draugui, kitam vaikui, žmonių grupei..."></textarea>
-
-          <label>Ar tai vyksta dabar, ar įvyko anksčiau?</label>
-          <textarea id="qaWhen" placeholder="Pvz., dabar, vakar, prieš savaitę, nežinau..."></textarea>
-
-          <label>Ką dar svarbu žinoti?</label>
-          <textarea id="qaAdditional" placeholder="Pvz., ar tai kartojasi, ar buvo grasinimų, ar jau pranešei platformai..."></textarea>
-
-          <button class="btn-secondary" style="margin-top:12px;" onclick="generateDescriptionSummary()">Sugeneruoti santrauką</button>
-
-          <div id="summaryReviewWrap" style="display:none; margin-top:18px;">
-            <label>Santrauka</label>
-            <p class="helper">Gali patvirtinti arba pataisyti tekstą prieš tęsiant.</p>
-            <textarea id="description"></textarea>
-          </div>
-
-          <h2 style="margin-top:22px;">Kontaktai</h2>
-          <p class="helper">Kartais platformoms, nagrinėjančioms mūsų pateiktus pranešimus dėl neteisėto turinio, gali prireikti papildomos informacijos. Jei nurodysi savo el. paštą, prireikus galėsime su tavimi susisiekti ir platformai pateikti prašomą papildomą informaciją, kad pranešimas būtų išnagrinėtas ir sprendimas priimtas kuo greičiau.</p>
-
-          <div id="emailWrap">
-            <label>El. paštas</label>
-            <input id="email" type="email" placeholder="tavo@email.com" />
-            <p class="helper">Tavo el. pašto adresą naudosime tik pranešimo gavimui patvirtinti ir, esant poreikiui, susisiekti dėl papildomos informacijos gavimo. Jis nebus naudojamas jokiais kitais tikslais.</p>
-
-            <label class="option"><input id="anonymous" type="checkbox" onchange="toggleEmail()"> Noriu likti anonimiškas</label>
-          </div>
-
-          <div class="button-row">
-            <button class="btn-back" onclick="goToStep(3)">Atgal</button>
-            <button class="btn-primary" onclick="nextDescriptionStep()">Toliau</button>
-          </div>
+    <!-- Interactive Learning Section -->
+    <section class="interactive-learning">
+        <div class="container">
+            <div class="interactive-grid">
+                <!-- Card 1: Situation Quiz -->
+                <div class="expandable-card" data-card="situation">
+                    <div class="card-header">
+                        <h3>Ar atpažįsti situaciją?</h3>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="situation-quiz-container">
+                            <div class="situation-item active" data-scenario="1">
+                                <div class="situation-question">
+                                    <p><strong>Situacija 1/8:</strong> Nežinomas asmuo siunčia įžeidžiančius pranešimus ir prašo atskleisti asmeninius duomenis.</p>
+                                </div>
+                                <div class="situation-buttons">
+                                    <button class="btn btn-primary situation-btn" data-correct="true">Tai yra sukčiavimas</button>
+                                    <button class="btn btn-secondary situation-btn" data-correct="false">Tai yra paprastas pokštis</button>
+                                </div>
+                                <div class="situation-result hidden">
+                                    <p><strong>Teisingai!</strong> Tai yra sukčiavimo bandymas. Niekada nesidalink asmeniniais duomenimis su nežinomais asmenimis internete.</p>
+                                    <button class="btn btn-next-situation">Kitas klausimas →</button>
+                                </div>
+                            </div>
+                            
+                            <div class="situation-item" data-scenario="2">
+                                <div class="situation-question">
+                                    <p><strong>Situacija 2/8:</strong> Draugas gauna daugybę įžeidžiančių komentarus viešoje socialinės tinklapio skiltyje.</p>
+                                </div>
+                                <div class="situation-buttons">
+                                    <button class="btn btn-primary situation-btn" data-correct="true">Tai yra patyčios</button>
+                                    <button class="btn btn-secondary situation-btn" data-correct="false">Tai normalu</button>
+                                </div>
+                                <div class="situation-result hidden">
+                                    <p><strong>Teisingai!</strong> Vieši įžeidimai komentaruose yra patyčios. Galite pranešti apie tai platformai.</p>
+                                    <button class="btn btn-next-situation">Kitas klausimas →</button>
+                                </div>
+                            </div>
+                            
+                            <div class="situation-item" data-scenario="3">
+                                <div class="situation-question">
+                                    <p><strong>Situacija 3/8:</strong> Kažkas grasina paskelbti jūsų privacias nuotraukas, jei neatliksite jo reikalavimų.</p>
+                                </div>
+                                <div class="situation-buttons">
+                                    <button class="btn btn-primary situation-btn" data-correct="true">Tai yra šantažas</button>
+                                    <button class="btn btn-secondary situation-btn" data-correct="false">Tai tik grasinimas</button>
+                                </div>
+                                <div class="situation-result hidden">
+                                    <p><strong>Teisingai!</strong> Tai yra seksualinis šantažas – sunkus nusikaltimas. Nedelskite, praneškite tėvams ir policijai.</p>
+                                    <button class="btn btn-next-situation">Kitas klausimas →</button>
+                                </div>
+                            </div>
+                            
+                            <div class="situation-item" data-scenario="4">
+                                <div class="situation-question">
+                                    <p><strong>Situacija 4/8:</strong> Pažįstamas sukūrė netikrą paskyrą ir apsimetė kitu asmeniu.</p>
+                                </div>
+                                <div class="situation-buttons">
+                                    <button class="btn btn-primary situation-btn" data-correct="true">Tai yra apsimetimas</button>
+                                    <button class="btn btn-secondary situation-btn" data-correct="false">Tai žaidimas</button>
+                                </div>
+                                <div class="situation-result hidden">
+                                    <p><strong>Teisingai!</strong> Apsimetimas kitu žmogumu yra neteisėta ir gali sukelti žalą. Praneškite apie tai.</p>
+                                    <button class="btn btn-next-situation">Kitas klausimas →</button>
+                                </div>
+                            </div>
+                            
+                            <div class="situation-item" data-scenario="5">
+                                <div class="situation-question">
+                                    <p><strong>Situacija 5/8:</strong> Pažįstamas be leidimo pasidalino jūsų privačia nuotrauka.</p>
+                                </div>
+                                <div class="situation-buttons">
+                                    <button class="btn btn-primary situation-btn" data-correct="true">Tai yra privatumo pažeidimas</button>
+                                    <button class="btn btn-secondary situation-btn" data-correct="false">Tai nieko tokio</button>
+                                </div>
+                                <div class="situation-result hidden">
+                                    <p><strong>Teisingai!</strong> Privačių nuotraukų platinimas be leidimo yra neteisėtas. Turite teisę prašyti jų pašalinimo.</p>
+                                    <button class="btn btn-next-situation">Kitas klausimas →</button>
+                                </div>
+                            </div>
+                            
+                            <div class="situation-item" data-scenario="6">
+                                <div class="situation-question">
+                                    <p><strong>Situacija 6/8:</strong> Svetimas asmuo bando susitikti su vaiku asmeniškai po interneto pokalbio.</p>
+                                </div>
+                                <div class="situation-buttons">
+                                    <button class="btn btn-primary situation-btn" data-correct="true">Tai yra pavojinga</button>
+                                    <button class="btn btn-secondary situation-btn" data-correct="false">Tai draugiška</button>
+                                </div>
+                                <div class="situation-result hidden">
+                                    <p><strong>Teisingai!</strong> Vaiko viliojimas susitikimais yra pavojinga. Nedelskite, praneškite suaugusiesiems.</p>
+                                    <button class="btn btn-next-situation">Kitas klausimas →</button>
+                                </div>
+                            </div>
+                            
+                            <div class="situation-item" data-scenario="7">
+                                <div class="situation-question">
+                                    <p><strong>Situacija 7/8:</strong> Grupėje naudojami įžeidžianti žodžiai pagal tautybę ar išvaizdą.</p>
+                                </div>
+                                <div class="situation-buttons">
+                                    <button class="btn btn-primary situation-btn" data-correct="true">Tai yra neapykantos kalba</button>
+                                    <button class="btn btn-secondary situation-btn" data-correct="false">Tai tik juokas</button>
+                                </div>
+                                <div class="situation-result hidden">
+                                    <p><strong>Teisingai!</strong> Neapykantos kalba yra neteisėta ir žalinga. Praneškite apie tai moderatoriams.</p>
+                                    <button class="btn btn-next-situation">Kitas klausimas →</button>
+                                </div>
+                            </div>
+                            
+                            <div class="situation-item" data-scenario="8">
+                                <div class="situation-question">
+                                    <p><strong>Situacija 8/8:</strong> Paskelbiamas pavojingas iššūkis, kuris gali pakenkti sveikatai.</p>
+                                </div>
+                                <div class="situation-buttons">
+                                    <button class="btn btn-primary situation-btn" data-correct="true">Tai yra pavojingas</button>
+                                    <button class="btn btn-secondary situation-btn" data-correct="false">Tai įdomu</button>
+                                </div>
+                                <div class="situation-result hidden">
+                                    <p><strong>Teisingai!</strong> Pavojingi internetiniai iššūkiai gali sukelti rimtą žalą. Nedalyvaukite ir praneškite.</p>
+                                    <button class="btn btn-restart-quiz">Pradėti iš naujo</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Card 2: Emoji Quiz -->
+                <div class="expandable-card" data-card="emoji">
+                    <div class="card-header">
+                        <h3>Ar atpažįsti emocijas?</h3>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="emoji-quiz-container">
+                            <div class="emoji-item active" data-situation="1">
+                                <div class="emoji-question">
+                                    <p><strong>Situacija 1/8:</strong> Kaip, tavo nuomone, jaučiasi vaikas, kai internete iš jo tyčiojasi?</p>
+                                </div>
+                                <div class="emoji-options">
+                                    <button class="emoji-btn" data-emoji="happy">😊</button>
+                                    <button class="emoji-btn" data-emoji="sad">😢</button>
+                                    <button class="emoji-btn" data-emoji="angry">😡</button>
+                                    <button class="emoji-btn" data-emoji="scared">😨</button>
+                                    <button class="emoji-btn" data-emoji="neutral">😐</button>
+                                </div>
+                                <div class="emoji-result hidden">
+                                    <p><strong>Teisingai!</strong> Kai iš vaikų tyčiojasi internete, jie dažnai jaučia pyktį, baimę ar liūdesį. Svarbu pripažinti šias emocijas ir ieškoti pagalbos.</p>
+                                    <p class="supportive-message">Nesišvokk – tu nesi vienas. Visada gali kreiptis pagalbos.</p>
+                                    <button class="btn btn-next-emoji">Kitas klausimas →</button>
+                                </div>
+                            </div>
+                            
+                            <div class="emoji-item" data-situation="2">
+                                <div class="emoji-question">
+                                    <p><strong>Situacija 2/8:</strong> Kaip jaučiasi vaikas, kai gauna grasinimus internete?</p>
+                                </div>
+                                <div class="emoji-options">
+                                    <button class="emoji-btn" data-emoji="happy">😊</button>
+                                    <button class="emoji-btn" data-emoji="sad">😢</button>
+                                    <button class="emoji-btn" data-emoji="angry">😡</button>
+                                    <button class="emoji-btn" data-emoji="scared">😨</button>
+                                    <button class="emoji-btn" data-emoji="neutral">😐</button>
+                                </div>
+                                <div class="emoji-result hidden">
+                                    <p><strong>Teisingai!</strong> Grasinimai sukelia didelę baimę ir nerimą. Tai normali reakcija į pavojingą situaciją.</p>
+                                    <p class="supportive-message">Grasinimai yra neteisėti. Nedelskite, praneškite suaugusiesiems.</p>
+                                    <button class="btn btn-next-emoji">Kitas klausimas →</button>
+                                </div>
+                            </div>
+                            
+                            <div class="emoji-item" data-situation="3">
+                                <div class="emoji-question">
+                                    <p><strong>Situacija 3/8:</strong> Kaip jaučiasi vaikas, kai jo privačios nuotraukos paskelbtos be leidimo?</p>
+                                </div>
+                                <div class="emoji-options">
+                                    <button class="emoji-btn" data-emoji="happy">😊</button>
+                                    <button class="emoji-btn" data-emoji="sad">😢</button>
+                                    <button class="emoji-btn" data-emoji="angry">😡</button>
+                                    <button class="emoji-btn" data-emoji="scared">😨</button>
+                                    <button class="emoji-btn" data-emoji="neutral">😐</button>
+                                </div>
+                                <div class="emoji-result hidden">
+                                    <p><strong>Teisingai!</strong> Privatumo pažeidimas sukelia pyktį, gėdą ir liūdesį. Tai sunkia patirtis.</p>
+                                    <p class="supportive-message">Tu nesi kaltas. Turite teisę prašyti nuotraukų pašalinimo.</p>
+                                    <button class="btn btn-next-emoji">Kitas klausimas →</button>
+                                </div>
+                            </div>
+                            
+                            <div class="emoji-item" data-situation="4">
+                                <div class="emoji-question">
+                                    <p><strong>Situacija 4/8:</strong> Kaip jaučiasi vaikas, kai jį išskiria ir ignoruoja grupėje?</p>
+                                </div>
+                                <div class="emoji-options">
+                                    <button class="emoji-btn" data-emoji="happy">😊</button>
+                                    <button class="emoji-btn" data-emoji="sad">😢</button>
+                                    <button class="emoji-btn" data-emoji="angry">😡</button>
+                                    <button class="emoji-btn" data-emoji="scared">😨</button>
+                                    <button class="emoji-btn" data-emoji="neutral">😐</button>
+                                </div>
+                                <div class="emoji-result hidden">
+                                    <p><strong>Teisingai!</strong> Išskyrimas sukelia liūdesį, vienišumo jausmą ir mažą savivertę.</p>
+                                    <p class="supportive-message">Tu vertingas. Nesišvokk – rasti draugus, kurie tavęs vertina.</p>
+                                    <button class="btn btn-next-emoji">Kitas klausimas →</button>
+                                </div>
+                            </div>
+                            
+                            <div class="emoji-item" data-situation="5">
+                                <div class="emoji-question">
+                                    <p><strong>Situacija 5/8:</strong> Kaip jaučiasi vaikas, kai gauna daugybę neapykantos žinučių?</p>
+                                </div>
+                                <div class="emoji-options">
+                                    <button class="emoji-btn" data-emoji="happy">😊</button>
+                                    <button class="emoji-btn" data-emoji="sad">😢</button>
+                                    <button class="emoji-btn" data-emoji="angry">😡</button>
+                                    <button class="emoji-btn" data-emoji="scared">😨</button>
+                                    <button class="emoji-btn" data-emoji="neutral">😐</button>
+                                </div>
+                                <div class="emoji-result hidden">
+                                    <p><strong>Teisingai!</strong> Neapykantos kalba sukelia pyktį, baimę ir gėdą. Tai labai žalinga.</p>
+                                    <p class="supportive-message">Neapykantos kalba yra neteisėta. Praneškite apie tai moderatoriams.</p>
+                                    <button class="btn btn-next-emoji">Kitas klausimas →</button>
+                                </div>
+                            </div>
+                            
+                            <div class="emoji-item" data-situation="6">
+                                <div class="emoji-question">
+                                    <p><strong>Situacija 6/8:</strong> Kaip jaučiasi vaikas, kai kažkas apsimeta juo internete?</p>
+                                </div>
+                                <div class="emoji-options">
+                                    <button class="emoji-btn" data-emoji="happy">😊</button>
+                                    <button class="emoji-btn" data-emoji="sad">😢</button>
+                                    <button class="emoji-btn" data-emoji="angry">😡</button>
+                                    <button class="emoji-btn" data-emoji="scared">😨</button>
+                                    <button class="emoji-btn" data-emoji="neutral">😐</button>
+                                </div>
+                                <div class="emoji-result hidden">
+                                    <p><strong>Teisingai!</strong> Apsimetimas sukelia pyktį, gėdą ir pasibjaurėjimą. Tai yra neteisėta.</p>
+                                    <p class="supportive-message">Tu nesi kaltas. Praneškite apie apsimetimą platformai.</p>
+                                    <button class="btn btn-next-emoji">Kitas klausimas →</button>
+                                </div>
+                            </div>
+                            
+                            <div class="emoji-item" data-situation="7">
+                                <div class="emoji-question">
+                                    <p><strong>Situacija 7/8:</strong> Kaip jaučiasi vaikas, kai gauna nepageidaujamus seksualinius pranešimus?</p>
+                                </div>
+                                <div class="emoji-options">
+                                    <button class="emoji-btn" data-emoji="happy">😊</button>
+                                    <button class="emoji-btn" data-emoji="sad">😢</button>
+                                    <button class="emoji-btn" data-emoji="angry">😡</button>
+                                    <button class="emoji-btn" data-emoji="scared">😨</button>
+                                    <button class="emoji-btn" data-emoji="neutral">😐</button>
+                                </div>
+                                <div class="emoji-result hidden">
+                                    <p><strong>Teisingai!</strong> Nepageidaujami seksualiniai pranešimai sukelia didelę baimą, gėdą ir nerimą.</p>
+                                    <p class="supportive-message">Tai nėra tavo kaltė. Nedelskite, praneškite suaugusiesiems.</p>
+                                    <button class="btn btn-next-emoji">Kitas klausimas →</button>
+                                </div>
+                            </div>
+                            
+                            <div class="emoji-item" data-situation="8">
+                                <div class="emoji-question">
+                                    <p><strong>Situacija 8/8:</strong> Kaip jaučiasi vaikas, kai pagaliau gauna pagalbą ir palaikymą?</p>
+                                </div>
+                                <div class="emoji-options">
+                                    <button class="emoji-btn" data-emoji="happy">😊</button>
+                                    <button class="emoji-btn" data-emoji="sad">😢</button>
+                                    <button class="emoji-btn" data-emoji="angry">😡</button>
+                                    <button class="emoji-btn" data-emoji="scared">😨</button>
+                                    <button class="emoji-btn" data-emoji="neutral">😐</button>
+                                </div>
+                                <div class="emoji-result hidden">
+                                    <p><strong>Teisingai!</strong> Pagalba ir palaikymas sukelia palaimą, atleidimą ir viltį. Tai labai svarbu.</p>
+                                    <p class="supportive-message">Gerai, kad ieškote pagalbos. Tu vertas palaikymo ir saugumo.</p>
+                                    <button class="btn btn-restart-emoji">Pradėti iš naujo</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Card 3: Learning Card -->
+                <div class="expandable-card learning-card">
+                    <div class="card-header">
+                        <h3>Kibernetinio saugumo mokymai vaikams</h3>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-content">
+                        <p>Sužinok daugiau apie saugų elgesį internete, kaip apsisaugoti nuo patyčių ir sukčiavimo.</p>
+                        <a href="https://mokymai.nksc.lt/enrol/index.php?id=46" class="btn btn-primary learning-cta" target="_blank" rel="noopener noreferrer">Pradėti mokymus</a>
+                    </div>
+                </div>
+            </div>
         </div>
-      </section>
+    </section>
 
-      <section id="step5" class="step">
-        <progress-block current="4" total="5" percent="80"></progress-block>
-        <div class="card">
-          <h2>Patikrink</h2>
-
-          <div class="review-item"><strong>Atvejo numeris</strong><span id="reviewCaseId">-</span></div>
-          <div class="review-item"><strong>Platforma</strong><span id="reviewPlatform">-</span></div>
-          <div class="review-item"><strong>Nuoroda</strong><span id="reviewUrl">-</span></div>
-          <div class="review-item"><strong>Aprašymas</strong><span id="reviewDescription">-</span></div>
-
-          <div id="institutionReviewSection" style="display:none;">
-            <div class="review-item"><strong>Organizacija</strong><span id="reviewInstitutionName">-</span></div>
-            <div class="review-item"><strong>Oficialus el. paštas</strong><span id="reviewInstitutionEmail">-</span></div>
-            <div class="review-item"><strong>Teisinis pagrindas</strong><span id="reviewLegalBasis">-</span></div>
-            <div class="review-item"><strong>Prašymo tipas</strong><span id="reviewRequestType">-</span></div>
-            <div class="review-item"><strong>Veiksmai</strong><span id="reviewInstitutionActions">-</span></div>
-            <div class="review-item" id="reviewVideoTimestamp" style="display:none;"><strong>Video laiko žyma</strong><span></span></div>
-            <div class="review-item" id="reviewAdditionalUrls" style="display:none;"><strong>Papildomos nuorodos</strong><span></span></div>
-          </div>
-
-          <div id="schoolReviewSection" style="display:none;">
-            <div class="review-item"><strong>Mokykla</strong><span id="reviewSchoolName">-</span></div>
-            <div class="review-item"><strong>Kontaktinis asmuo</strong><span id="reviewSchoolContact">-</span></div>
-            <div class="review-item"><strong>El. paštas</strong><span id="reviewSchoolEmail">-</span></div>
-            <div class="review-item"><strong>Klasė</strong><span id="reviewSchoolClass">-</span></div>
-            <div class="review-item"><strong>Kokius veiksmus mokykla jau atliko</strong><span id="reviewSchoolActions">-</span></div>
-            <div class="review-item"><strong>Kodėl kreipiasi</strong><span id="reviewSchoolReason">-</span></div>
-          </div>
-
-          <div id="communityReviewSection" style="display:none;">
-            <div class="review-item"><strong>Organizacija / bendruomenė</strong><span id="reviewCommunityName">-</span></div>
-            <div class="review-item"><strong>Kontaktinis asmuo</strong><span id="reviewCommunityContact">-</span></div>
-            <div class="review-item"><strong>El. paštas</strong><span id="reviewCommunityEmail">-</span></div>
-            <div class="review-item"><strong>Kokius veiksmus jau ėmėtės</strong><span id="reviewCommunityActions">-</span></div>
-            <div class="review-item"><strong>Kodėl kreipiasi</strong><span id="reviewCommunityReason">-</span></div>
-          </div>
-
-          <div class="review-actions">
-            <button class="btn-primary" onclick="submitForm()">Pateikti</button>
-            <button class="btn-secondary" onclick="addAnotherCase()">+ Pridįti dar vieną atvejį</button>
-            <button class="btn-back" onclick="goToStep(4)">Atgal</button>
-          </div>
+    <!-- Status Lookup Section -->
+    <section class="status-lookup" id="statusas">
+        <div class="container">
+            <h2>Pasitikrink savo pranešimo būseną</h2>
+            <div class="status-form">
+                <div class="status-input-group">
+                    <input type="text" placeholder="Įvesk pranešimo ID" class="status-input">
+                    <button class="btn btn-primary">Patikrinti</button>
+                </div>
+                <p class="status-help">Pranešimo ID gausi po pranešimo pateikimo</p>
+            </div>
         </div>
+    </section>
+
+    <!-- Video Section -->
+    <section class="video-section">
+        <div class="container">
+            <div class="video-placeholder">
+                <div class="video-placeholder-content">
+                    <div class="video-icon">▶</div>
+                    <p>Vaizdo įrašas bus įkeltas vėliau</p>
+                </div>
+            </div>
         </div>
-      </section>
+    </section>
 
-      <section id="step6" class="step">
-        <div class="card">
-          <h2>Ačiū, pranešimas gautas</h2>
-          <p id="finalMessage">Nusikopijuok ir išsisaugok šį kodą. Jo gali prireikti, jei vėliau norėsi pasitikslinti dėl savo pranešimo.</p>
-          <div id="caseCodesList" class="case-codes-list"></div>
-          <button
-            id="copyAllCodesBtn"
-            class="btn-secondary"
-            onclick="copyAllCaseIds()"
-            style="display:none;"
-          >
-            Kopijuoti visus kodus
-          </button>
-
-          <div class="review-item" style="margin-top:20px;">
-            <strong>Kiti žingsniai, kurių gali imtis</strong>
-            <span>Čia rasi platformų pranešimų formas ir kitus pagalbos šaltinius.</span>
-            <button class="btn-primary" style="margin-top:12px; background:var(--blue);" onclick="goToStep(1.5)">Peržiūrėti kitus žingsnius</button>
-          </div>
-
-          <button class="btn-secondary" style="margin-top:12px;" onclick="goToStep(7)">Atsakyti į trumpą apklausą</button>
-          <button class="btn-primary" style="margin-top:12px;" onclick="resetForm()">Pridėti dar vieną atvejį</button>
+    <!-- Partners Section -->
+    <section class="partners">
+        <div class="container">
+            <h2>PROJEKTĄ PALAIKO</h2>
+            
+            <div class="partners-vertical">
+                <div class="partners-category-vertical">
+                    <h3>Rėmėjai</h3>
+                    <div class="partners-row">
+                        <div class="partner-logo">Telia</div>
+                        <a href="https://tesonet.com/foundation/" class="partner-logo" target="_blank" rel="noopener noreferrer">Tesonet Foundation</a>
+                    </div>
+                </div>
+                
+                <div class="partners-category-vertical">
+                    <h3>Techniniai partneriai</h3>
+                    <div class="partners-row">
+                        <div class="partner-logo">Ideal Team</div>
+                        <div class="partner-logo">Western Invest</div>
+                    </div>
+                </div>
+                
+                <div class="partners-category-vertical">
+                    <h3>Teisiniai partneriai</h3>
+                    <div class="partners-row">
+                        <a href="https://widen.legal/" class="partner-logo" target="_blank" rel="noopener noreferrer">WIDEN Legal</a>
+                    </div>
+                </div>
+                
+                <div class="partners-category-vertical">
+                    <h3>Viešinimo partneriai</h3>
+                    <div class="partners-row">
+                        <a href="https://truth.lt/en/home/" class="partner-logo" target="_blank" rel="noopener noreferrer">TRUTH</a>
+                        <a href="https://www.2345.lt/" class="partner-logo" target="_blank" rel="noopener noreferrer">23:45</a>
+                    </div>
+                </div>
+                
+                <div class="partners-coordinator">
+                    <h3>Projektą koordinuoja</h3>
+                    <div class="partner-logo">RRT</div>
+                </div>
+            </div>
         </div>
-      </section>
+    </section>
 
-      <section id="step7" class="step">
-        <div class="card">
-          <h2>Trumpa apklausa</h2>
-          <p class="helper">Ši dalis nėra privaloma tam, jog tavo pateiktas pranešimas būtų išnagrinėtas. Ji skirta mums padėti suprasti, ar pranešimo apie neteisėtą turinį internete forma yra pakankamai tiksli ir aiški.</p>
-
-                    <label>Ar buvo lengva pildyti?</label>
-          <select id="surveyEase">
-            <option>Taip</option>
-            <option>Iš dalies</option>
-            <option>Ne</option>
-          </select>
-
-           <label>Kas buvo neaišku?</label>
-          <textarea id="surveyComment" placeholder="Parašyk, jei nori."></textarea>
-
-                    <label>Kas tu?</label>
-          <select id="surveyIdentity">
-            <option value="">Pasirink</option>
-            <option>Mergaitė</option>
-            <option>Berniukas</option>
-            <option>Kita</option>
-            <option>Nenoriu sakyti</option>
-          </select>
-
-          <label>Kiek tau metų?</label>
-          <select id="surveyAge">
-            <option value="">Pasirink</option>
-            <option>Iki 10</option>
-            <option>11–14</option>
-            <option>15–17</option>
-            <option>18+</option>
-            <option>Nenoriu sakyti</option>
-          </select>
-
-        <label>Iš kur esi?</label>
-
-<input
-  id="surveyCity"
-  type="text"
-  list="lithuanianCities"
-  placeholder="Pradėk rašyti miestą..."
-/>
-
-<datalist id="lithuanianCities">
-  <option value="Vilnius" />
-  <option value="Kaunas" />
-  <option value="Klaipėda" />
-  <option value="Šiauliai" />
-  <option value="Panevėžys" />
-  <option value="Alytus" />
-  <option value="Marijampolė" />
-  <option value="Mažeikiai" />
-  <option value="Jonava" />
-  <option value="Kėdainiai" />
-  <option value="Utena" />
-  <option value="Telšiai" />
-  <option value="Tauragė" />
-  <option value="Ukmergė" />
-  <option value="Visaginas" />
-  <option value="Šilutė" />
-  <option value="Kretinga" />
-  <option value="Plungė" />
-  <option value="Radviliškis" />
-  <option value="Raseiniai" />
-  <option value="Šakiai" />
-  <option value="Šiauliai" />
-  <option value="Šilalė" />
-  <option value="Švenčionys" />
-  <option value="Trakai" />
-  <option value="Varėna" />
-  <option value="Vilkaviškis" />
-  <option value="Zarasai" />
-  <option value="Druskininkai" />
-  <option value="Neringa" />
-  <option value="Palanga" />
-  <option value="Birštonas" />
-  <option value="Anykščiai" />
-  <option value="Ignalina" />
-  <option value="Molėtai" />
-  <option value="Prienai" />
-  <option value="Rokiškis" />
-  <option value="Zarasai" />
-  <option value="Kita (užsienis)" />
-  <option value="Nenoriu sakyti" />
-</datalist>
-
-<div style="height:24px;"></div>
-
-          <button class="btn-primary" onclick="submitSurvey()">Pateikti apklausą</button>
-          <button class="btn-back" style="margin-top:12px;" onclick="goToStep(8)">Praleisti</button>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Vaikų linija. Visos teisės saugomos.</p>
         </div>
-      </section>
+    </footer>
 
-      <section id="step8" class="step">
-        <div class="hero">
-          <h1>Ačiū!</h1>
-          <p>Tavo neabejingumas padeda kurti saugesnę interneto erdvę visiems.</p>
-        </div>
-
-        <div class="card">
-          <p>Dėkojame, kad skiri laiko ir daliniesi savo patirtimi. Kiekvienas tavo pranešimas ir atsiliepimas padeda mums geriau suprasti, kaip galime padėti.</p>
-          <p style="margin-top:12px;">Jei vėl susidursi su netinkamu turiniu internete, žinok, kad tu ne vienas. Mes čia, kad padėtume.</p>
-
-          <button class="btn-primary" style="margin-top:12px;" onclick="goToStep(1)">Pradėti iš naujo</button>
-        </div>
-      </section>
-
-      <section id="step98" class="step">
-        <div class="hero">
-          <h1>Pranešti platformai</h1>
-          <p>Čia sudėtos pagrindinės nuorodos, nuo kurių galima pradėti pranešimą pačiai platformai.</p>
-        </div>
-
-        <div class="card">
-          <a class="link-button btn-secondary" href="https://www.facebook.com/help/1380418588640631" target="_blank" rel="noopener">Facebook</a>
-          <a class="link-button btn-secondary" style="margin-top:10px" href="https://help.instagram.com/192435014247952" target="_blank" rel="noopener">Instagram</a>
-          <a class="link-button btn-secondary" style="margin-top:10px" href="https://support.tiktok.com/en/safety-hc/report-a-problem" target="_blank" rel="noopener">TikTok</a>
-          <a class="link-button btn-secondary" style="margin-top:10px" href="https://support.google.com/youtube/answer/2802027" target="_blank" rel="noopener">YouTube</a>
-          <a class="link-button btn-secondary" style="margin-top:10px" href="https://help.snapchat.com/hc/en-us/articles/7012399221652" target="_blank" rel="noopener">Snapchat</a>
-          <a class="link-button btn-secondary" style="margin-top:10px" href="https://help.x.com/en/rules-and-policies/twitter-report-violation" target="_blank" rel="noopener">X</a>
-          <a class="link-button btn-secondary" style="margin-top:10px" href="https://support.discord.com/hc/en-us/requests/new" target="_blank" rel="noopener">Discord</a>
-          <a class="link-button btn-secondary" style="margin-top:10px" href="https://support.reddithelp.com/hc/en-us/requests/new" target="_blank" rel="noopener">Reddit</a>
-          <a class="link-button btn-secondary" style="margin-top:10px" href="https://telegram.org/faq#q-how-do-i-report-illegal-content" target="_blank" rel="noopener">Telegram</a>
-          <a class="link-button btn-secondary" style="margin-top:10px" href="https://faq.whatsapp.com/general/security-and-privacy/reporting-safety-issues" target="_blank" rel="noopener">WhatsApp</a>
-          <a class="link-button btn-secondary" style="margin-top:10px" href="https://support.viber.com/docs/report-problem" target="_blank" rel="noopener">Viber</a>
-          <a class="link-button btn-secondary" style="margin-top:10px" href="https://help.pinterest.com/en/article/report-a-pin-or-board" target="_blank" rel="noopener">Pinterest</a>
-          <a class="link-button btn-secondary" style="margin-top:10px" href="https://help.twitch.tv/s/article/how-to-file-a-report" target="_blank" rel="noopener">Twitch</a>
-          <a class="link-button btn-secondary" style="margin-top:10px" href="https://en.help.roblox.com/hc/en-us/articles/203313380-Contacting-Roblox" target="_blank" rel="noopener">Roblox</a>
-          <a class="link-button btn-secondary" style="margin-top:10px" href="https://help.minecraft.net/hc/en-us/articles/360034636592-Reporting-Players" target="_blank" rel="noopener">Minecraft</a>
-        </div>
-
-        <button class="btn-back" onclick="goToStep(1)">Atgal</button>
-      </section>
-
-      <section id="step99" class="step">
-        <div class="hero">
-          <h1>Nori tik pasikalbėti?</h1>
-          <p>Gali susisiekti su Vaikų linija telefonu arba internetu.</p>
-        </div>
-
-        <div class="support-box">
-          <p class="helper">Telefonas</p>
-          <div class="phone-number"><a href="tel:116111">116 111</a></div>
-          <a class="link-button btn-primary" href="https://www.vaikulinija.lt/" target="_blank">Atidaryti pokalbį internetu</a>
-          <p class="helper" style="margin-top:14px;">Pokalbis anonimiškas.</p>
-        </div>
-
-        <button class="btn-back" onclick="goToStep(1)">Atgal</button>
-      </section>
-
-    </div>
-  </div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<script>
-const SUPABASE_URL = "https://zqvaqlmxstjindlcbef.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_xAQ2OqaewT3seUJkNUE1dg_nTU8OlQj";
-const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-let sessionId = localStorage.getItem("tfPrototypeSessionId");
-if (!sessionId) {
-  sessionId = (crypto.randomUUID ? crypto.randomUUID() : "sess_" + Math.random().toString(36).slice(2));
-  localStorage.setItem("tfPrototypeSessionId", sessionId);
-}
-const platformNotes = {
-  instagram:"Pastaba: jei tai trumpa istorija (story), naudinga matyti vartotojo vardą (username).",
-  tiktok:"Pastaba: naudinga, kad matytųsi video ir vartotojo vardas (username).",
-  snapchat:"Reikia vartotojo vardo (username) ir aprašymo.",
-  viber:"Pastaba: jei tai grupė, naudinga įkelti grupės pavadinimą ir narių sąrašo ekrano nuotrauką.",
-  discord:"Pastaba: naudinga serverio, kanalo ar žinutės nuoroda / ID.",
-  telegram:"Pastaba: jei tai kanalas ar grupė, naudinga pavadinimas ir konkreti žinutės nuoroda.",
-  whatsapp:"Pastaba: jei tai grupė, naudinga grupės pavadinimas ir konkreti žinutė."
-};
-
-const platformCodes = {
-  facebook:"FB",
-  instagram:"IG",
-  tiktok:"TT",
-  youtube:"YT",
-  snapchat:"SC",
-  x:"X",
-  telegram:"TG",
-  whatsapp:"WA",
-  discord:"DC",
-  reddit:"RD",
-  viber:"VB",
-  other:"OT"
-};
-
-const platformDomains = {
-  facebook: ["facebook.com", "fb.com", "m.facebook.com"],
-  instagram: ["instagram.com"],
-  tiktok: ["tiktok.com", "vm.tiktok.com"],
-  youtube: ["youtube.com", "youtu.be"],
-  snapchat: ["snapchat.com"],
-  x: ["x.com", "twitter.com"],
-  telegram: ["t.me", "telegram.me", "telegram.org"],
-  whatsapp: ["whatsapp.com", "wa.me"],
-  discord: ["discord.com", "discord.gg"],
-  reddit: ["reddit.com", "redd.it"],
-  viber: ["viber.com"],
-  other: []
-};
-
-let currentStep = 1;
-let generatedCaseId = "";
-let caseAppendix = 0;
-let baseCaseCode = "";
-let caseItems = [];
-let currentCaseIndex = 1;
-let submissions = JSON.parse(localStorage.getItem("tfPrototypeSubmissions") || "[]");
-let surveyStore = JSON.parse(localStorage.getItem("tfPrototypeSurvey") || "[]");
-
-class ProgressBlock extends HTMLElement {
-  connectedCallback(){
-    this.innerHTML = `
-      <div class="progress-text">${this.getAttribute("current")}/${this.getAttribute("total")}</div>
-      <div class="progress-track">
-        <div class="progress-fill" style="width:${this.getAttribute("percent")}%"></div>
-      </div>
-    `;
-  }
-}
-customElements.define("progress-block", ProgressBlock);
-
-function goToStep(step){
-  document.querySelectorAll(".step").forEach(s => s.classList.remove("active"));
-
-  const target = document.getElementById("step" + step);
-  if (!target) return;
-
-  target.classList.add("active");
-  currentStep = step;
-
-  if (step === 5) updateReview();
-
-  const screen = document.querySelector(".screen");
-  if (screen) {
-    screen.scrollTo({
-      top: 0,
-      behavior: "instant"
-    });
-  }
-}
-
-function goToStep(step){
-  document.querySelectorAll(".step").forEach(s => s.classList.remove("active"));
-
-  const target = document.getElementById("step" + step);
-  if (!target) return;
-
-  target.classList.add("active");
-  currentStep = step;
-
-  if (step === 5) updateReview();
-
-  const screen = document.querySelector(".screen");
-  if (screen) {
-    screen.scrollTo({
-      top: 0,
-      behavior: "instant"
-    });
-  }
-}
-
-function toggleOtherPlatform(){
-  const isOther = document.getElementById("platform").value === "other";
-  document.getElementById("otherPlatformWrap").style.display = isOther ? "block" : "none";
-}
-
-function updatePlatformNote(){
-  const platform = document.getElementById("platform").value;
-  const note = document.getElementById("platformNote");
-
-  if(platformNotes[platform]){
-    note.textContent = platformNotes[platform];
-    note.style.display = "block";
-  } else {
-    note.style.display = "none";
-  }
-}
-
-function showError(id, show){
-  document.getElementById(id).classList.toggle("show", show);
-}
-
-function nextPlatform(){
-  const platform = document.getElementById("platform").value;
-  const other = document.getElementById("otherPlatform").value.trim();
-
-  const invalid = !platform || (platform === "other" && !other);
-  showError("error2", invalid);
-
-  if(!invalid) goToStep(3);
-}
-
-function nextCombinedStep(){
-  const platform = document.getElementById("platform").value;
-  const other = document.getElementById("otherPlatform").value.trim();
-  const url = document.getElementById("url").value.trim();
-  const safeEvidence = document.getElementById("safeEvidence").checked;
-  const confirmMismatch = document.getElementById("confirmMismatch").checked;
-  const reporterType = document.getElementById("reporterType").value;
-
-  const urlMatches = doesUrlMatchPlatform(platform, url);
-  let invalid = !platform || !url || !isValidUrl(url) || (platform === "other" && !other) || !safeEvidence || (!urlMatches && !confirmMismatch);
-
-  // Institution field validation
-  if (reporterType === "institution") {
-    const institutionName = document.getElementById("institutionName").value.trim();
-    const institutionEmail = document.getElementById("institutionEmail").value.trim();
-    const legalBasis = document.getElementById("legalBasis").value.trim();
-
-    if (!institutionName || !institutionEmail || !legalBasis) {
-      invalid = true;
-      document.getElementById("error2").textContent = "Prašome užpildyti privalomus institucijos laukus (pavadinimas, el. paštas, teisinis pagrindas).";
-    } else {
-      document.getElementById("error2").textContent = "Prašome užpildyti privalomus laukus (platforma, nuoroda).";
-    }
-
-    // Check at least one action is selected
-    const hasAction = document.querySelectorAll(".institutionAction:checked").length > 0;
-    if (!hasAction) {
-      invalid = true;
-      document.getElementById("error2").textContent = "Prašome pasirinkti bent vieną veiksmą.";
-    }
-
-    // If "Kita" is selected, other text is required
-    const otherChecked = document.getElementById("institutionActionOther").checked;
-    const otherText = document.getElementById("institutionActionOtherText").value.trim();
-    if (otherChecked && !otherText) {
-      invalid = true;
-      document.getElementById("error2").textContent = "Prašome įrašyti paaiškinimą pasirinkus 'Kita'.";
-    }
-  }
-
-  // School field validation
-  if (reporterType === "school") {
-    const schoolName = document.getElementById("schoolName").value.trim();
-    const schoolEmail = document.getElementById("schoolEmail").value.trim();
-
-    if (!schoolName || !schoolEmail) {
-      invalid = true;
-      document.getElementById("error2").textContent = "Prašome užpildyti privalomus mokyklos laukus (pavadinimas, el. paštas).";
-    } else {
-      document.getElementById("error2").textContent = "Prašome užpildyti privalomus laukus (platforma, nuoroda).";
-    }
-
-    // Check at least one action is selected
-    const hasAction = document.querySelectorAll(".schoolAction:checked").length > 0;
-    if (!hasAction) {
-      invalid = true;
-      document.getElementById("error2").textContent = "Prašome pasirinkti bent vieną veiksmą.";
-    }
-
-    // If "Kita" is selected, other text is required
-    const otherChecked = document.getElementById("schoolActionOther").checked;
-    const otherText = document.getElementById("schoolActionOtherText").value.trim();
-    if (otherChecked && !otherText) {
-      invalid = true;
-      document.getElementById("error2").textContent = "Prašome įrašyti paaiškinimą pasirinkus 'Kita'.";
-    }
-  }
-
-  // Community field validation
-  if (reporterType === "community") {
-    const communityName = document.getElementById("communityName").value.trim();
-    const communityEmail = document.getElementById("communityEmail").value.trim();
-
-    if (!communityName || !communityEmail) {
-      invalid = true;
-      document.getElementById("error2").textContent = "Prašome užpildyti privalomus organizacijos laukus (pavadinimas, el. paštas).";
-    } else {
-      document.getElementById("error2").textContent = "Prašome užpildyti privalomus laukus (platforma, nuoroda).";
-    }
-
-    // Check at least one action is selected
-    const hasAction = document.querySelectorAll(".communityAction:checked").length > 0;
-    if (!hasAction) {
-      invalid = true;
-      document.getElementById("error2").textContent = "Prašome pasirinkti bent vieną veiksmą.";
-    }
-
-    // If "Kita" is selected, other text is required
-    const otherChecked = document.getElementById("communityActionOther").checked;
-    const otherText = document.getElementById("communityActionOtherText").value.trim();
-    if (otherChecked && !otherText) {
-      invalid = true;
-      document.getElementById("error2").textContent = "Prašome įrašyti paaiškinimą pasirinkus 'Kita'.";
-    }
-  }
-
-  if (!reporterType || reporterType === "person") {
-    document.getElementById("error2").textContent = "Prašome užpildyti privalomus laukus (platforma, nuoroda).";
-  }
-
-  showError("error2", invalid);
-
-  if(!invalid) goToStep(3);
-}
-
-function toggleOtherCategory(){
-  const checked = [...document.querySelectorAll(".category:checked")].some(c=>c.value==="Kita");
-  document.getElementById("otherCategory").style.display = checked ? "block" : "none";
-}
-
-function nextCategory(){
-  const checked = document.querySelectorAll(".category:checked");
-  showError("error4", checked.length === 0);
-  if(checked.length) goToStep(6);
-}
-
-function isValidUrl(value){
-  try {
-    const url = new URL(value);
-    return url.protocol === "http:" || url.protocol === "https:";
-  } catch {
-    return false;
-  }
-}
-
-function getUrlHostname(url){
-  try {
-    return new URL(url).hostname;
-  } catch {
-    return "";
-  }
-}
-
-function doesUrlMatchPlatform(platform, url){
-  if(platform === "other") return true;
-  const domains = platformDomains[platform] || [];
-  const hostname = getUrlHostname(url);
-  if(!hostname) return true;
-  return domains.some(domain => hostname === domain || hostname.endsWith("." + domain));
-}
-
-function validatePlatformUrlMatch(){
-  const platform = document.getElementById("platform").value;
-  const url = document.getElementById("url").value.trim();
-  const warning = document.getElementById("platformMismatchWarning");
-  const confirmCheckbox = document.getElementById("confirmMismatch");
-
-  if(!platform || !url || platform === "other"){
-    warning.style.display = "none";
-    confirmCheckbox.checked = false;
-    return;
-  }
-
-  if(!doesUrlMatchPlatform(platform, url)){
-    warning.style.display = "block";
-  } else {
-    warning.style.display = "none";
-    confirmCheckbox.checked = false;
-  }
-}
-
-function validateUrlLive(){
-  const value = document.getElementById("url").value.trim();
-  const error = document.getElementById("error2");
-  if(value && !isValidUrl(value)){
-    error.textContent = "Įvesk tinkamą URL adresą.";
-    error.classList.add("show");
-  } else {
-    error.textContent = "Prašome užpildyti privalomus laukus (platforma, nuoroda).";
-    error.classList.remove("show");
-  }
-}
-
-let evidenceFiles = [];
-
-function initEvidenceUpload(){
-  const dropZone = document.getElementById("dropZone");
-  const evidenceInput = document.getElementById("evidenceInput");
-  const evidencePreview = document.getElementById("evidencePreview");
-  const evidenceError = document.getElementById("evidenceError");
-
-  if(!dropZone || !evidenceInput) return;
-
-  dropZone.addEventListener("click", () => evidenceInput.click());
-
-  evidenceInput.addEventListener("change", (e) => {
-    handleFiles(e.target.files);
-    evidenceInput.value = "";
-  });
-
-  dropZone.addEventListener("dragenter", (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    dropZone.classList.add("dragover");
-  });
-
-  dropZone.addEventListener("dragover", (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    dropZone.classList.add("dragover");
-  });
-
-  dropZone.addEventListener("dragleave", (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    dropZone.classList.remove("dragover");
-  });
-
-  dropZone.addEventListener("drop", (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    dropZone.classList.remove("dragover");
-    handleFiles(e.dataTransfer.files);
-  });
-
-  document.addEventListener("paste", handlePaste);
-}
-
-function handlePaste(e){
-  const items = e.clipboardData?.items;
-  if(!items) return;
-
-  const files = [];
-  for(let i = 0; i < items.length; i++){
-    if(items[i].type.startsWith("image/")){
-      const file = items[i].getAsFile();
-      if(file) files.push(file);
-    }
-  }
-
-  if(files.length > 0){
-    handleFiles(files);
-  }
-}
-
-function handleFiles(files){
-  const evidenceError = document.getElementById("evidenceError");
-  const supportedFormats = ["image/jpeg", "image/jpg", "image/png", "image/gif", "image/webp", "video/mp4", "video/quicktime", "image/heic", "image/heif"];
-  const maxSize = 100 * 1024 * 1024;
-  let totalSize = evidenceFiles.reduce((sum, f) => sum + f.size, 0);
-
-  for(let file of files){
-    if(!supportedFormats.includes(file.type) && !file.name.match(/\.(heic|heif)$/i)){
-      evidenceError.textContent = "Šis failo tipas nepalaikomas.";
-      evidenceError.style.display = "block";
-      setTimeout(() => evidenceError.style.display = "none", 3000);
-      continue;
-    }
-
-    totalSize += file.size;
-    if(totalSize > maxSize){
-      evidenceError.textContent = "Bendras įkeliamų failų dydis viršija 100 MB.";
-      evidenceError.style.display = "block";
-      setTimeout(() => evidenceError.style.display = "none", 3000);
-      return;
-    }
-
-    evidenceFiles.push(file);
-  }
-
-  renderEvidencePreview();
-}
-
-function renderEvidencePreview(){
-  const evidencePreview = document.getElementById("evidencePreview");
-  if(!evidencePreview) return;
-
-  evidencePreview.innerHTML = "";
-
-  evidenceFiles.forEach((file, index) => {
-    const item = document.createElement("div");
-    item.className = "evidence-item";
-
-    if(file.type.startsWith("image/")){
-      const img = document.createElement("img");
-      const url = URL.createObjectURL(file);
-      img.src = url;
-      img.onload = () => URL.revokeObjectURL(url);
-      item.appendChild(img);
-    } else if(file.type.startsWith("video/")){
-      const placeholder = document.createElement("div");
-      placeholder.className = "video-placeholder";
-      placeholder.textContent = "🎥";
-      item.appendChild(placeholder);
-    } else {
-      const placeholder = document.createElement("div");
-      placeholder.className = "video-placeholder";
-      placeholder.textContent = "📄";
-      item.appendChild(placeholder);
-    }
-
-    const removeBtn = document.createElement("button");
-    removeBtn.className = "remove-btn";
-    removeBtn.textContent = "✕";
-    removeBtn.onclick = () => removeEvidenceFile(index);
-    item.appendChild(removeBtn);
-
-    const fileInfo = document.createElement("div");
-    fileInfo.className = "file-info";
-    const size = formatFileSize(file.size);
-    fileInfo.textContent = `${file.name} (${size})`;
-    item.appendChild(fileInfo);
-
-    evidencePreview.appendChild(item);
-  });
-}
-
-function removeEvidenceFile(index){
-  evidenceFiles.splice(index, 1);
-  renderEvidencePreview();
-}
-
-function formatFileSize(bytes){
-  if(bytes < 1024) return bytes + " B";
-  if(bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB";
-  return (bytes / (1024 * 1024)).toFixed(1) + " MB";
-}
-
-initEvidenceUpload();
-
-function nextUrl(){
-  const value = document.getElementById("url").value.trim();
-  const invalid = !isValidUrl(value);
-  showError("error6", invalid);
-  if(!invalid) goToStep(7);
-}
-
-function nextEvidence(){
-  const checked = document.getElementById("safeEvidence").checked;
-  showError("error7", !checked);
-  if(checked) goToStep(8);
-}
-
-
-
-function toggleReportedDetails(){
-  const reported = document.querySelector('input[name="reported"]:checked')?.value;
-  const show = reported === "Taip";
-  document.getElementById("reportedDetails").style.display = show ? "block" : "none";
-
-  if(!show){
-    document.getElementById("reportedDate").value = "";
-    document.getElementById("platformResponse").selectedIndex = 0;
-  }
-}
-
-function toggleLastSeen(){
-  const status = document.querySelector('input[name="contentStatus"]:checked')?.value;
-  const show = status === "Jau pašalintas";
-  document.getElementById("lastSeenWrap").style.display = show ? "block" : "none";
-
-  if(!show){
-    document.getElementById("lastSeen").value = "";
-  }
-}
-
-
-function toggleRepeatedContent(){
-  const repeated = document.querySelector('input[name="repeatedContent"]:checked')?.value;
-  const show = repeated === "Taip";
-  document.getElementById("samePersonWrap").style.display = show ? "block" : "none";
-
-  if(!show){
-    document.getElementById("samePerson").selectedIndex = 0;
-  }
-}
-function toggleOtherCity() {
-  const city = document.getElementById("surveyCity").value;
-  const field = document.getElementById("otherCity");
-
-  field.style.display = city === "Kita"
-    ? "block"
-    : "none";
-
-  if(city !== "Kita") {
-    field.value = "";
-  }
-}
-function toggleEmail(){
-  const noContact = document.getElementById("anonymous").checked;
-  const email = document.getElementById("email");
-
-  email.disabled = noContact;
-  email.style.opacity = noContact ? ".55" : "1";
-
-  if(noContact){
-    email.value = "";
-  }
-}
-
-function toggleInstitutionFields() {
-  const checked = document.getElementById("isInstitutionReport").checked;
-  const block = document.getElementById("institutionFields");
-
-  block.style.display = checked ? "block" : "none";
-
-  if (!checked) {
-    clearInstitutionFields();
-  }
-}
-
-function toggleReporterType() {
-  const reporterType = document.getElementById("reporterType").value;
-  const institutionBlock = document.getElementById("institutionFields");
-  const schoolBlock = document.getElementById("schoolFields");
-  const communityBlock = document.getElementById("communityFields");
-
-  institutionBlock.style.display = reporterType === "institution" ? "block" : "none";
-  schoolBlock.style.display = reporterType === "school" ? "block" : "none";
-  communityBlock.style.display = reporterType === "community" ? "block" : "none";
-
-  if (reporterType === "person") {
-    clearInstitutionFields();
-    clearSchoolFields();
-    clearCommunityFields();
-  } else if (reporterType === "institution") {
-    clearSchoolFields();
-    clearCommunityFields();
-  } else if (reporterType === "school") {
-    clearInstitutionFields();
-    clearCommunityFields();
-  } else if (reporterType === "community") {
-    clearInstitutionFields();
-    clearSchoolFields();
-  }
-}
-
-function handleActionNone(type) {
-  const noneCheckbox = document.getElementById(type + "ActionNone");
-  const actionClass = type + "Action";
-  const otherWrap = document.getElementById(type + "ActionOtherWrap");
-  const otherCheckbox = document.getElementById(type + "ActionOther");
-
-  if (noneCheckbox.checked) {
-    // Uncheck all other actions
-    document.querySelectorAll("." + actionClass).forEach(el => {
-      if (el.id !== type + "ActionNone") {
-        el.checked = false;
-        el.disabled = true;
-      }
-    });
-    // Hide other text field
-    if (otherWrap) otherWrap.style.display = "none";
-  } else {
-    // Re-enable all other actions
-    document.querySelectorAll("." + actionClass).forEach(el => {
-      if (el.id !== type + "ActionNone") {
-        el.disabled = false;
-      }
-    });
-  }
-}
-
-function handleActionOther(type) {
-  const noneCheckbox = document.getElementById(type + "ActionNone");
-  const otherCheckbox = document.getElementById(type + "ActionOther");
-  const otherWrap = document.getElementById(type + "ActionOtherWrap");
-
-  // If this is the "other" checkbox being checked, uncheck "none"
-  if (otherCheckbox.checked) {
-    noneCheckbox.checked = false;
-  }
-
-  // If any action (except "none") is being checked, uncheck "none"
-  const actionClass = type + "Action";
-  document.querySelectorAll("." + actionClass).forEach(el => {
-    if (el.id !== type + "ActionNone" && el.checked) {
-      noneCheckbox.checked = false;
-    }
-  });
-
-  // Show/hide other text field
-  if (otherWrap) {
-    otherWrap.style.display = otherCheckbox.checked ? "block" : "none";
-  }
-}
-
-function toggleCommunityActionOther() {
-  const checked = document.getElementById("communityActionOther").checked;
-  document.getElementById("communityActionOtherWrap").style.display = checked ? "block" : "none";
-}
-
-function toggleCommunityReasonOther() {
-  const value = document.getElementById("communityReason").value;
-  document.getElementById("communityReasonOtherWrap").style.display = value === "Kita" ? "block" : "none";
-}
-
-function clearCommunityFields() {
-  const ids = [
-    "communityName",
-    "communityContact",
-    "communityRole",
-    "communityEmail",
-    "communityActionOtherText",
-    "communityReason",
-    "communityReasonOther",
-    "affectedPersons",
-    "communityAdditionalInfo"
-  ];
-
-  ids.forEach(id => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    if (el.tagName === "SELECT") el.selectedIndex = 0;
-    else el.value = "";
-  });
-
-  document.querySelectorAll(".communityAction").forEach(el => {
-    el.checked = false;
-    el.disabled = false;
-  });
-}
-
-function toggleSchoolActionOther() {
-  const checked = document.getElementById("schoolActionOther").checked;
-  document.getElementById("schoolActionOtherWrap").style.display = checked ? "block" : "none";
-}
-
-function toggleSchoolReasonOther() {
-  const value = document.getElementById("schoolReason").value;
-  document.getElementById("schoolReasonOtherWrap").style.display = value === "Kita" ? "block" : "none";
-}
-
-function clearSchoolFields() {
-  const ids = [
-    "schoolName",
-    "schoolContact",
-    "schoolRole",
-    "schoolEmail",
-    "schoolClass",
-    "schoolActionOtherText",
-    "schoolReason",
-    "schoolReasonOther",
-    "affectedStudents",
-    "schoolAdditionalInfo"
-  ];
-
-  ids.forEach(id => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    if (el.tagName === "SELECT") el.selectedIndex = 0;
-    else el.value = "";
-  });
-
-  document.querySelectorAll(".schoolAction").forEach(el => {
-    el.checked = false;
-    el.disabled = false;
-  });
-  document.querySelectorAll('input[name="sameSchool"]').forEach(el => el.checked = false);
-}
-
-function clearInstitutionFields() {
-  const ids = [
-    "institutionName",
-    "institutionContactPerson",
-    "institutionContactRole",
-    "institutionEmail",
-    "institutionReferenceNumber",
-    "institutionRequestType",
-    "legalBasis",
-    "videoTimestamp",
-    "urgencyReason",
-    "additionalUrls",
-    "platformNoteForInstitution",
-    "institutionActionOtherText"
-  ];
-
-  ids.forEach(id => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    if (el.tagName === "SELECT") el.selectedIndex = 0;
-    else el.value = "";
-  });
-
-  document.querySelectorAll(".institutionAction").forEach(el => {
-    el.checked = false;
-    el.disabled = false;
-  });
-}
-
-function generateDescriptionSummary() {
-  const what = document.getElementById("qaWhatHappened").value.trim();
-  const who = document.getElementById("qaWhoDidIt").value.trim();
-  const affected = document.getElementById("qaWhoAffected").value.trim();
-  const when = document.getElementById("qaWhen").value.trim();
-  const additional = document.getElementById("qaAdditional").value.trim();
-
-  const parts = [];
-
-  if (what) parts.push("Kas nutiko: " + what);
-  if (who) parts.push("Kas tai daro: " + who);
-  if (affected) parts.push("Kam tai nutiko: " + affected);
-  if (when) parts.push("Kada / ar vyksta dabar: " + when);
-  if (additional) parts.push("Papildoma informacija: " + additional);
-
-  const summary = parts.length
-    ? parts.join("\n")
-    : "";
-
-  document.getElementById("description").value = summary;
-  document.getElementById("summaryReviewWrap").style.display = summary ? "block" : "none";
-}
-
-function nextDescriptionStep() {
-  const description = document.getElementById("description").value.trim();
-  const hasQaAnswers =
-    document.getElementById("qaWhatHappened").value.trim() ||
-    document.getElementById("qaWhoDidIt").value.trim() ||
-    document.getElementById("qaWhoAffected").value.trim() ||
-    document.getElementById("qaWhen").value.trim() ||
-    document.getElementById("qaAdditional").value.trim();
-
-  if (!description && hasQaAnswers) {
-    generateDescriptionSummary();
-  }
-
-  goToStep(5);
-}
-
-function generateRandom4(){
-  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-  let out = "";
-  for(let i=0;i<4;i++){
-    out += chars[Math.floor(Math.random()*chars.length)];
-  }
-  return out;
-}
-
-function generateCaseId(platform, index = 1){
-  if(!baseCaseCode){
-    const code = platformCodes[platform] || "OT";
-    baseCaseCode = `VL-${code}-${generateRandom4()}`;
-  }
-  return `${baseCaseCode}-${index}`;
-}
-
-function collectData(){
-  const platform = document.getElementById("platform").value;
-  const caseId = generateCaseId(platform, currentCaseIndex);
-  const reporterType = document.getElementById("reporterType").value;
-
-  return {
-    caseId,
-    platform,
-    otherPlatform: document.getElementById("otherPlatform").value,
-    minor: "",
-    url: document.getElementById("url").value,
-    evidenceCount: evidenceFiles.length,
-    safeEvidence: document.getElementById("safeEvidence").checked,
-    description: document.getElementById("description").value,
-    reported: document.querySelector('input[name="reported"]:checked')?.value || "",
-    reportedDate: document.getElementById("reportedDate").value,
-    platformResponse: document.getElementById("platformResponse").value,
-    contentStatus: document.querySelector('input[name="contentStatus"]:checked')?.value || "",
-    lastSeen: document.getElementById("lastSeen").value,
-    repeatedContent: document.querySelector('input[name="repeatedContent"]:checked')?.value || "",
-    samePerson: document.getElementById("samePerson").value,
-    anonymous: document.getElementById("anonymous").checked,
-    email: document.getElementById("anonymous").checked ? "" : document.getElementById("email").value,
-    reporterType,
-    isInstitutionReport: reporterType === "institution",
-    institutionName: document.getElementById("institutionName")?.value || "",
-    institutionContactPerson: document.getElementById("institutionContactPerson")?.value || "",
-    institutionContactRole: document.getElementById("institutionContactRole")?.value || "",
-    institutionEmail: document.getElementById("institutionEmail")?.value || "",
-    institutionReferenceNumber: document.getElementById("institutionReferenceNumber")?.value || "",
-    institutionRequestType: document.getElementById("institutionRequestType")?.value || "",
-    legalBasis: document.getElementById("legalBasis")?.value || "",
-    videoTimestamp: document.getElementById("videoTimestamp")?.value || "",
-    urgencyReason: document.getElementById("urgencyReason")?.value || "",
-    additionalUrls: document.getElementById("additionalUrls")?.value || "",
-    platformNoteForInstitution: document.getElementById("platformNoteForInstitution")?.value || "",
-    schoolName: document.getElementById("schoolName")?.value || "",
-    schoolContact: document.getElementById("schoolContact")?.value || "",
-    schoolRole: document.getElementById("schoolRole")?.value || "",
-    schoolEmail: document.getElementById("schoolEmail")?.value || "",
-    schoolClass: document.getElementById("schoolClass")?.value || "",
-    sameSchool: document.querySelector('input[name="sameSchool"]:checked')?.value || "",
-    schoolActionNone: document.getElementById("schoolActionNone")?.checked || false,
-    schoolActionTalkedStudent: document.getElementById("schoolActionTalkedStudent")?.checked || false,
-    schoolActionTalkedParents: document.getElementById("schoolActionTalkedParents")?.checked || false,
-    schoolActionTalkedPoster: document.getElementById("schoolActionTalkedPoster")?.checked || false,
-    schoolActionPlatform: document.getElementById("schoolActionPlatform")?.checked || false,
-    schoolActionPolice: document.getElementById("schoolActionPolice")?.checked || false,
-    schoolActionChildRights: document.getElementById("schoolActionChildRights")?.checked || false,
-    schoolActionOtherInstitution: document.getElementById("schoolActionOtherInstitution")?.checked || false,
-    schoolActionOther: document.getElementById("schoolActionOther")?.checked || false,
-    schoolActionOtherText: document.getElementById("schoolActionOtherText")?.value || "",
-    schoolReason: document.getElementById("schoolReason")?.value || "",
-    schoolReasonOther: document.getElementById("schoolReasonOther")?.value || "",
-    affectedStudents: document.getElementById("affectedStudents")?.value || "",
-    schoolAdditionalInfo: document.getElementById("schoolAdditionalInfo")?.value || "",
-    communityName: document.getElementById("communityName")?.value || "",
-    communityContact: document.getElementById("communityContact")?.value || "",
-    communityRole: document.getElementById("communityRole")?.value || "",
-    communityEmail: document.getElementById("communityEmail")?.value || "",
-    communityActionNone: document.getElementById("communityActionNone")?.checked || false,
-    communityActionTalkedPerson: document.getElementById("communityActionTalkedPerson")?.checked || false,
-    communityActionTalkedParents: document.getElementById("communityActionTalkedParents")?.checked || false,
-    communityActionTalkedPoster: document.getElementById("communityActionTalkedPoster")?.checked || false,
-    communityActionPlatform: document.getElementById("communityActionPlatform")?.checked || false,
-    communityActionPolice: document.getElementById("communityActionPolice")?.checked || false,
-    communityActionChildRights: document.getElementById("communityActionChildRights")?.checked || false,
-    communityActionOtherInstitution: document.getElementById("communityActionOtherInstitution")?.checked || false,
-    communityActionOther: document.getElementById("communityActionOther")?.checked || false,
-    communityActionOtherText: document.getElementById("communityActionOtherText")?.value || "",
-    communityReason: document.getElementById("communityReason")?.value || "",
-    communityReasonOther: document.getElementById("communityReasonOther")?.value || "",
-    affectedPersons: document.getElementById("affectedPersons")?.value || "",
-    communityAdditionalInfo: document.getElementById("communityAdditionalInfo")?.value || "",
-    institutionActionNone: document.getElementById("institutionActionNone")?.checked || false,
-    institutionActionTalkedPerson: document.getElementById("institutionActionTalkedPerson")?.checked || false,
-    institutionActionTalkedParents: document.getElementById("institutionActionTalkedParents")?.checked || false,
-    institutionActionTalkedPoster: document.getElementById("institutionActionTalkedPoster")?.checked || false,
-    institutionActionPlatform: document.getElementById("institutionActionPlatform")?.checked || false,
-    institutionActionPolice: document.getElementById("institutionActionPolice")?.checked || false,
-    institutionActionChildRights: document.getElementById("institutionActionChildRights")?.checked || false,
-    institutionActionOtherInstitution: document.getElementById("institutionActionOtherInstitution")?.checked || false,
-    institutionActionOther: document.getElementById("institutionActionOther")?.checked || false,
-    institutionActionOtherText: document.getElementById("institutionActionOtherText")?.value || "",
-    createdAt: new Date().toISOString()
-  };
-}
-
-function updateReview(){
-  const data = collectData();
-  const platformSelect = document.getElementById("platform");
-  const platformLabel = data.platform === "other"
-    ? data.otherPlatform
-    : platformSelect.options[platformSelect.selectedIndex]?.text || "-";
-
-  document.getElementById("reviewCaseId").textContent = data.caseId;
-  document.getElementById("reviewPlatform").textContent = platformLabel || "-";
-  document.getElementById("reviewUrl").textContent = data.url || "-";
-  document.getElementById("reviewDescription").textContent = data.description || "-";
-
-  // Institution fields in review
-  const institutionReviewSection = document.getElementById("institutionReviewSection");
-  if (data.reporterType === "institution") {
-    institutionReviewSection.style.display = "block";
-    document.getElementById("reviewInstitutionName").textContent = data.institutionName || "-";
-    document.getElementById("reviewInstitutionEmail").textContent = data.institutionEmail || "-";
-    document.getElementById("reviewLegalBasis").textContent = data.legalBasis || "-";
-    document.getElementById("reviewRequestType").textContent = data.institutionRequestType || "-";
-    
-    const actions = [];
-    if (data.institutionActionNone) actions.push("Veiksmų nesiimta");
-    if (data.institutionActionTalkedPerson) actions.push("Kalbėta su vaiku");
-    if (data.institutionActionTalkedParents) actions.push("Kalbėta su tėvais / globėjais");
-    if (data.institutionActionTalkedPoster) actions.push("Kalbėta su asmeniu, kuris paskelbė turinį");
-    if (data.institutionActionPlatform) actions.push("Kreiptasi į platformą");
-    if (data.institutionActionPolice) actions.push("Kreiptasi į policiją");
-    if (data.institutionActionChildRights) actions.push("Kreiptasi į Vaiko teisių apsaugos tarnybą");
-    if (data.institutionActionOtherInstitution) actions.push("Kreiptasi į kitą instituciją");
-    if (data.institutionActionOther) actions.push(data.institutionActionOtherText || "Kita");
-    document.getElementById("reviewInstitutionActions").textContent = actions.length ? actions.join(", ") : "-";
-    
-    const videoTimestampEl = document.getElementById("reviewVideoTimestamp");
-    if (data.videoTimestamp) {
-      videoTimestampEl.style.display = "block";
-      videoTimestampEl.textContent = "Video laiko žyma: " + data.videoTimestamp;
-    } else {
-      videoTimestampEl.style.display = "none";
-    }
-    
-    const additionalUrlsEl = document.getElementById("reviewAdditionalUrls");
-    if (data.additionalUrls) {
-      additionalUrlsEl.style.display = "block";
-      additionalUrlsEl.textContent = "Papildomos nuorodos: " + data.additionalUrls;
-    } else {
-      additionalUrlsEl.style.display = "none";
-    }
-  } else {
-    institutionReviewSection.style.display = "none";
-  }
-
-  // School fields in review
-  const schoolReviewSection = document.getElementById("schoolReviewSection");
-  if (data.reporterType === "school") {
-    schoolReviewSection.style.display = "block";
-    document.getElementById("reviewSchoolName").textContent = data.schoolName || "-";
-    document.getElementById("reviewSchoolContact").textContent = data.schoolContact || "-";
-    document.getElementById("reviewSchoolEmail").textContent = data.schoolEmail || "-";
-    
-    const schoolClassEl = document.getElementById("schoolClass");
-    const classLabel = schoolClassEl.options[schoolClassEl.selectedIndex]?.text || "-";
-    document.getElementById("reviewSchoolClass").textContent = classLabel;
-    
-    const actions = [];
-    if (data.schoolActionNone) actions.push("Veiksmų nesiimta");
-    if (data.schoolActionTalkedStudent) actions.push("Kalbėta su vaiku");
-    if (data.schoolActionTalkedParents) actions.push("Kalbėta su tėvais / globėjais");
-    if (data.schoolActionTalkedPoster) actions.push("Kalbėta su asmeniu, kuris paskelbė turinį");
-    if (data.schoolActionPlatform) actions.push("Kreiptasi į platformą");
-    if (data.schoolActionPolice) actions.push("Kreiptasi į policiją");
-    if (data.schoolActionChildRights) actions.push("Kreiptasi į Vaiko teisių apsaugos tarnybą");
-    if (data.schoolActionOtherInstitution) actions.push("Kreiptasi į kitą instituciją");
-    if (data.schoolActionOther) actions.push(data.schoolActionOtherText || "Kita");
-    document.getElementById("reviewSchoolActions").textContent = actions.length ? actions.join(", ") : "-";
-    
-    const reason = data.schoolReason;
-    if (reason === "Kita") {
-      document.getElementById("reviewSchoolReason").textContent = data.schoolReasonOther || "-";
-    } else {
-      document.getElementById("reviewSchoolReason").textContent = reason || "-";
-    }
-  } else {
-    schoolReviewSection.style.display = "none";
-  }
-
-  // Community fields in review
-  const communityReviewSection = document.getElementById("communityReviewSection");
-  if (data.reporterType === "community") {
-    communityReviewSection.style.display = "block";
-    document.getElementById("reviewCommunityName").textContent = data.communityName || "-";
-    document.getElementById("reviewCommunityContact").textContent = data.communityContact || "-";
-    document.getElementById("reviewCommunityEmail").textContent = data.communityEmail || "-";
-    
-    const actions = [];
-    if (data.communityActionNone) actions.push("Veiksmų nesiimta");
-    if (data.communityActionTalkedPerson) actions.push("Kalbėta su vaiku");
-    if (data.communityActionTalkedParents) actions.push("Kalbėta su tėvais / globėjais");
-    if (data.communityActionTalkedPoster) actions.push("Kalbėta su asmeniu, kuris paskelbė turinį");
-    if (data.communityActionPlatform) actions.push("Kreiptasi į platformą");
-    if (data.communityActionPolice) actions.push("Kreiptasi į policiją");
-    if (data.communityActionChildRights) actions.push("Kreiptasi į Vaiko teisių apsaugos tarnybą");
-    if (data.communityActionOtherInstitution) actions.push("Kreiptasi į kitą instituciją");
-    if (data.communityActionOther) actions.push(data.communityActionOtherText || "Kita");
-    document.getElementById("reviewCommunityActions").textContent = actions.length ? actions.join(", ") : "-";
-    
-    const reason = data.communityReason;
-    if (reason === "Kita") {
-      document.getElementById("reviewCommunityReason").textContent = data.communityReasonOther || "-";
-    } else {
-      document.getElementById("reviewCommunityReason").textContent = reason || "-";
-    }
-  } else {
-    communityReviewSection.style.display = "none";
-  }
-}
-
-function submitForm(){
-  const currentCase = collectData();
-  caseItems.push(currentCase);
-
-  submissions.push(...caseItems);
-  localStorage.setItem("tfPrototypeSubmissions", JSON.stringify(submissions));
-
-  renderFinalCaseCodes();
-  goToStep(6);
-}
-
-function submitSurvey(){
-  const survey = {
-    caseId: generatedCaseId,
-    identity: document.getElementById("surveyIdentity").value,
-    age: document.getElementById("surveyAge").value,
-    city: document.getElementById("surveyCity").value,
-    ease: document.getElementById("surveyEase").value,
-    comment: document.getElementById("surveyComment").value,
-    createdAt: new Date().toISOString()
-  };
-
-  surveyStore.push(survey);
-  localStorage.setItem("tfPrototypeSurvey", JSON.stringify(surveyStore));
-  goToStep(8);
-}
-
-function copyCaseId(){
-  const code = document.getElementById("finalCaseId").textContent;
-  navigator.clipboard?.writeText(code);
-}
-
-function renderFinalCaseCodes() {
-  const list = document.getElementById("caseCodesList");
-  const copyAllBtn = document.getElementById("copyAllCodesBtn");
-  const message = document.getElementById("finalMessage");
-
-  const codes = caseItems.map(item => item.caseId);
-
-  list.innerHTML = "";
-
-  codes.forEach(code => {
-    const card = document.createElement("div");
-    card.className = "case-code-card";
-
-    card.innerHTML = `
-      <span class="case-code-text">${code}</span>
-      <button class="copy-code-btn" onclick="copySingleCaseId('${code}')">
-        Kopijuoti
-      </button>
-    `;
-
-    list.appendChild(card);
-  });
-
-  copyAllBtn.style.display = codes.length > 1 ? "block" : "none";
-
-  if(codes.length > 1){
-    message.textContent = "Pateikti keli atvejai. Išsisaugok šiuos kodus. Jų gali prireikti, jei vėliau norėsi pasitikslinti dėl savo pranešimų.";
-  } else {
-    message.textContent = "Nusikopijuok ir išsisaugok šį kodą. Jo gali prireikti, jei vėliau norėsi pasitikslinti dėl savo pranešimo.";
-  }
-}
-
-function copySingleCaseId(code) {
-  navigator.clipboard?.writeText(code);
-}
-
-function copyAllCaseIds() {
-  const codes = caseItems.map(item => item.caseId).join("\n");
-  navigator.clipboard?.writeText(codes);
-}
-
-function setValueIfExists(id, value = "") {
-  const el = document.getElementById(id);
-  if (el) el.value = value;
-}
-
-function setCheckedIfExists(id, checked = false) {
-  const el = document.getElementById(id);
-  if (el) el.checked = checked;
-}
-
-function setDisplayIfExists(id, display = "none") {
-  const el = document.getElementById(id);
-  if (el) el.style.display = display;
-}
-
-function setSelectedIndexIfExists(id, index = 0) {
-  const el = document.getElementById(id);
-  if (el) el.selectedIndex = index;
-}
-
-function resetForm(){
-  generatedCaseId = "";
-  caseAppendix = 0;
-  baseCaseCode = "";
-  caseItems = [];
-  currentCaseIndex = 1;
-  evidenceFiles = [];
-
-  document.querySelectorAll("input[type='text'], input[type='url'], input[type='email'], textarea").forEach(el => el.value = "");
-  document.querySelectorAll("input[type='checkbox']").forEach(el => el.checked = false);
-  document.querySelectorAll("input[type='radio']").forEach(el => el.checked = false);
-  document.querySelectorAll("select").forEach(el => el.selectedIndex = 0);
-
-  document.getElementById("otherPlatformWrap").style.display = "none";
-  document.getElementById("platformNote").style.display = "none";
-  const otherCategory = document.getElementById("otherCategory");
-  if (otherCategory) otherCategory.style.display = "none";
-  document.getElementById("reportedDetails").style.display = "none";
-  document.getElementById("lastSeenWrap").style.display = "none";
-  document.getElementById("samePersonWrap").style.display = "none";
-  document.getElementById("emailWrap").style.display = "block";
-  document.getElementById("email").disabled = false;
-  document.getElementById("email").style.opacity = "1";
-
-  const evidencePreview = document.getElementById("evidencePreview");
-  if(evidencePreview) evidencePreview.innerHTML = "";
-
-  document.getElementById("platformMismatchWarning").style.display = "none";
-  document.getElementById("confirmMismatch").checked = false;
-
-  document.getElementById("summaryReviewWrap").style.display = "none";
-
-  // Clear institution fields
-  document.getElementById("institutionFields").style.display = "none";
-  clearInstitutionFields();
-
-  // Clear school fields
-  document.getElementById("schoolFields").style.display = "none";
-  clearSchoolFields();
-
-  // Clear community fields
-  document.getElementById("communityFields").style.display = "none";
-  clearCommunityFields();
-
-  // Reset reporter type to default
-  document.getElementById("reporterType").selectedIndex = 0;
-
-  goToStep(1);
-}
-
-function addAnotherCase(){
-  const platform = document.getElementById("platform").value;
-  const other = document.getElementById("otherPlatform").value.trim();
-  const url = document.getElementById("url").value.trim();
-  const safeEvidence = document.getElementById("safeEvidence").checked;
-
-  const invalid = !platform || !url || !isValidUrl(url) || (platform === "other" && !other) || !safeEvidence;
-  showError("error2", invalid);
-
-  if(invalid){
-    goToStep(2);
-    return;
-  }
-
-  try {
-    const currentCase = collectData();
-    caseItems.push(currentCase);
-    currentCaseIndex++;
-
-    setSelectedIndexIfExists("platform", 0);
-    setValueIfExists("otherPlatform", "");
-    setValueIfExists("url", "");
-    setCheckedIfExists("safeEvidence", false);
-    evidenceFiles = [];
-
-    setValueIfExists("description", "");
-
-    setValueIfExists("qaWhatHappened", "");
-    setValueIfExists("qaWhoDidIt", "");
-    setValueIfExists("qaWhoAffected", "");
-    setValueIfExists("qaWhen", "");
-    setValueIfExists("qaAdditional", "");
-    setDisplayIfExists("summaryReviewWrap", "none");
-
-    document.querySelectorAll('input[name="reported"]').forEach(el => el.checked = false);
-    setValueIfExists("reportedDate", "");
-    setValueIfExists("platformResponse", "");
-
-    document.querySelectorAll('input[name="contentStatus"]').forEach(el => el.checked = false);
-    setValueIfExists("lastSeen", "");
-    document.querySelectorAll('input[name="repeatedContent"]').forEach(el => el.checked = false);
-    setSelectedIndexIfExists("samePerson", 0);
-
-    setDisplayIfExists("otherPlatformWrap", "none");
-    setDisplayIfExists("platformNote", "none");
-    setDisplayIfExists("reportedDetails", "none");
-    setDisplayIfExists("lastSeenWrap", "none");
-    setDisplayIfExists("samePersonWrap", "none");
-
-    const evidencePreview = document.getElementById("evidencePreview");
-    if(evidencePreview) evidencePreview.innerHTML = "";
-
-    setDisplayIfExists("error2", "none");
-    setDisplayIfExists("platformMismatchWarning", "none");
-    setCheckedIfExists("confirmMismatch", false);
-
-    // Clear institution fields
-    setCheckedIfExists("isInstitutionReport", false);
-    setDisplayIfExists("institutionFields", "none");
-    clearInstitutionFields();
-
-    // Clear school fields
-    setDisplayIfExists("schoolFields", "none");
-    clearSchoolFields();
-
-    // Clear community fields
-    setDisplayIfExists("communityFields", "none");
-    clearCommunityFields();
-
-    // Reset reporter type to default
-    setSelectedIndexIfExists("reporterType", 0);
-
-    goToStep(2);
-  } catch (error) {
-    console.error("addAnotherCase error:", error);
-    alert("Klaida: " + error.message);
-  }
-}
-</script>
-
+    <script src="script.js"></script>
 </body>
 </html>
