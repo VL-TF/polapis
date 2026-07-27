@@ -1,3 +1,13 @@
+// Make step items visible on page load
+document.addEventListener('DOMContentLoaded', function() {
+    const stepItems = document.querySelectorAll('.step-item');
+    stepItems.forEach((item, index) => {
+        setTimeout(() => {
+            item.classList.add('visible');
+        }, index * 1500);
+    });
+});
+
 // Expandable Cards functionality
 document.querySelectorAll('.expandable-card').forEach(card => {
     const header = card.querySelector('.card-header');
