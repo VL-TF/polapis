@@ -7,8 +7,8 @@
 
 :root {
     /* Vaikulinija.lt inspired colors */
-    --primary-blue: #4A90E2;
-    --primary-orange: #FF8C42;
+    --primary-blue: #005B8B;
+    --primary-orange: #F04E23;
     --primary-green: #7ED321;
     --text-dark: #2C3E50;
     --text-light: #7F8C8D;
@@ -33,6 +33,10 @@ body {
     padding: 0 20px;
 }
 
+.header .container {
+    padding-left: 0;
+}
+
 /* Header */
 .header {
     background-color: var(--bg-white);
@@ -48,9 +52,15 @@ body {
     align-items: center;
 }
 
-.logo-svg {
+.logo a {
+    display: block;
+    text-decoration: none;
+}
+
+.logo-img {
     height: 60px;
     width: auto;
+    display: block;
 }
 
 /* Hero Section */
