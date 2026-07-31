@@ -1,0 +1,1 @@
+Į GitHub repozitorijos pagrindinį katalogą įkelkite index.html, styles.css ir script.js. Taip pat įkelkite Vaiku_linija_logotipas.svg tuo pačiu pavadinimu.
